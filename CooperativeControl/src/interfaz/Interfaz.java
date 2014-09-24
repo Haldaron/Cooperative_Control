@@ -83,10 +83,8 @@ public class Interfaz {
 
 	        setSize( 400, 400 );
 	        getContentPane( ).add( panelBotones, BorderLayout.NORTH );
-	        getContentPane( ).add( panelBuscaminas, BorderLayout.CENTER );
 	        getContentPane( ).add( panelBarraEstado, BorderLayout.SOUTH );
 	    }
-
 	    // -----------------------------------------------------------------
 	    // M�todos
 	    // -----------------------------------------------------------------
