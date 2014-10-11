@@ -18,8 +18,8 @@ public class Malla {
 
 	private static final int CROP1 = 1;
 	private static final int CROP2= 2;
-	private static final int CROP3=3;
-	private static final int CROP4=4;
+	private static final int CROP3 = 3;
+	private static final int CROP4= 4;
 
 	public final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
 
@@ -44,8 +44,11 @@ public class Malla {
 	private ArrayList<Huerto> huertos;
 
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
-	
+
 	private Grafo rGrafo;
+
+
+
 	//--------------------------------------------------------------------------
 	//Constructor
 	//--------------------------------------------------------------------------
@@ -64,11 +67,13 @@ public class Malla {
 		huertos = new ArrayList<Huerto>();
 		malla= new Nodo[N][N];
 
-			inicializarCarros(inicialesCarros, angulosCarros);
-			inicializarHuertos(inicialesHuertos);
-			inicializarMalla();
-		
-			crearGrafo();
+		inicializarCarros(inicialesCarros, angulosCarros);
+		inicializarHuertos(inicialesHuertos);
+		inicializarMalla();
+
+		crearGrafo(malla);
+
+
 	}
 
 
@@ -122,60 +127,43 @@ public class Malla {
 
 				if(h0)
 					malla[i][j] =huerto0 ;
-				
+
 				else if(h1)
 					malla[i][j]=huerto1;
-				
+
 				else if(h2)
 					malla[i][j]=huerto2;
-				
+
 				else
 					malla[i][j]= new Nodo(j,i);
 			}
 		}
 	}
+
+
 	
-	public void crearGrafo(){
+	
+	public void crearGrafo(Nodo[][] grid){
 		
-		rGrafo=new Grafo(malla);
-	}
-	
-	public void asignarCaminosaCarro(Carro c){
-		int source= c.getPosY()*N+c.getPosX();
-		FindPath fp= new  FindPath(rGrafo, source);
-		for(int i =0; i<huertos.size(); i++){
-			int goal= huertos.get(i).getPosY()*N+c.getPosX();
-			Camino nC= new Camino(c.getCodigo());
-			
-		}
-	}
-	
-	
-	public ArrayList<Nodo> hallarCamino(Carro c,FindPath fP, int Goal){;
-		ArrayList<Nodo> secuencia= new ArrayList<Nodo>();
-		Iterator<Integer> iterador= fP.caminoA(Goal).iterator();
-		while(iterador.hasNext()){
-			int actual= iterador.next();
-			int j= actual%N;
-			int i = (actual-j)*N;
-			secuencia.add(malla[i][j]);
-		}
-		return secuencia;
-		
+		rGrafo= new Grafo(grid);
+
 	}
 
 	
 	
+
+
+
 	public void optimizarCaminos()
 
 	{
 		OptimizacionCaminos oc =new OptimizacionCaminos(carros.get(0).posiblesCaminos,carros.get(1).posiblesCaminos,carros.get(2).posiblesCaminos);	
-		
+
 		Integer[]	caminosAAsignar=oc.getIndexHuertosFinales();
 		carros.get(0).setCaminoEnSeguimiento(carros.get(0).getPosiblesCaminos()[caminosAAsignar[0]]);
 		carros.get(1).setCaminoEnSeguimiento(carros.get(1).getPosiblesCaminos()[caminosAAsignar[1]]);
 		carros.get(2).setCaminoEnSeguimiento(carros.get(2).getPosiblesCaminos()[caminosAAsignar[2]]);
 	}
-	
+
 }
 
