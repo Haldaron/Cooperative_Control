@@ -1,6 +1,3 @@
-package interfaz;
-
-public class Interfaz {
 
 	/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 * $Id$ 
@@ -15,7 +12,7 @@ public class Interfaz {
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	 */
 
-	package uniandes.cupi2.buscaminas.interfaz;
+	package interfaz;
 
 	import java.awt.BorderLayout;
 	import java.io.File;
@@ -23,7 +20,7 @@ public class Interfaz {
 	import javax.swing.JFrame;
 	import javax.swing.JOptionPane;
 
-	import uniandes.cupi2.buscaminas.mundo.CampoMinado;
+	import mundo.Malla;
 
 	/**
 	 * Esta es la clase principal de la interfaz del buscaminas
@@ -46,15 +43,6 @@ public class Interfaz {
 	     */
 	    private PanelBotones panelBotones;
 
-	    /**
-	     * Es el panel donde se muestra el estado actual del juego
-	     */
-	    private PanelMapa panelBuscaminas;
-
-	    /**
-	     * Es el panel donde se muestra la barra de estado del juego
-	     */
-	    private PanelEstado panelBarraEstado;
 
 	    // -----------------------------------------------------------------
 	    // Constructores
@@ -75,15 +63,10 @@ public class Interfaz {
 	        setSize( 400, 400 );
 	        setResizable( false );
 
-	        modoActual = MODO_DESTAPAR;
-
-	        panelBotones = new PanelBotones( this );
-	        panelBuscaminas = new PanelBuscaminas( this, campoMinado.darFilas(), campoMinado.darColumnas( ) );
-	        panelBarraEstado = new PanelEstado( );
+	        panelBotones = new PanelBotones(this );
 
 	        setSize( 400, 400 );
 	        getContentPane( ).add( panelBotones, BorderLayout.NORTH );
-	        getContentPane( ).add( panelBarraEstado, BorderLayout.SOUTH );
 	    }
 	    // -----------------------------------------------------------------
 	    // M�todos

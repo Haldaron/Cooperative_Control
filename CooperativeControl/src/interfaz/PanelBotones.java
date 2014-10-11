@@ -96,7 +96,7 @@ public class PanelBotones {
 	     * Construye el panel con la referencia a la InterfazBuscaminas.
 	     * @param ib Es una referencia a la clase principal de la interfaz. ib!=null.
 	     */
-	    public PanelBotones( InterfazBuscaminas ib )
+	    public PanelBotones( Interfaz ib )
 	    {
 	        ventanaPrincipal = ib;
 
@@ -109,25 +109,7 @@ public class PanelBotones {
 	        botonIniciar.setToolTipText( "Iniciar" );
 	        botonIniciar.addActionListener( this );
 	        add( botonIniciar );
-
-	        // inicializa el botonMarcar con la imagen y los valores predeterminados
-	        botonMarcar = new JButton( );
-	        botonMarcar.setIcon( new ImageIcon( "./data/marca.jpg" ) );
-	        botonMarcar.setMargin( new Insets( 1, 1, 1, 1 ) );
-	        botonMarcar.setToolTipText( "Marcar" );
-	        botonMarcar.setActionCommand( BOTON_MODO_MARCAR );
-	        botonMarcar.addActionListener( this );
-	        add( botonMarcar );
-
-	        // inicializa el botonDesMarcar con la imagen y los valores predeterminados
-	        botonDesMarcar = new JButton( );
-	        botonDesMarcar.setIcon( new ImageIcon( "./data/desmarcar.jpg" ) );
-	        botonDesMarcar.setMargin( new Insets( 1, 1, 1, 1 ) );
-	        botonDesMarcar.setToolTipText( "Desmarcar" );
-	        botonDesMarcar.setActionCommand( BOTON_MODO_DESMARCAR );
-	        botonDesMarcar.addActionListener( this );
-	        add( botonDesMarcar );
-
+ 
 	        // inicializa el botonDestapar con la imagen y los valores predeterminados
 	        botonDestapar = new JButton( );
 	        botonDestapar.setIcon( new ImageIcon( "./data/destapar.jpg" ) );
