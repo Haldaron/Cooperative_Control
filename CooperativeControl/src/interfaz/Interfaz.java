@@ -30,6 +30,8 @@ import mundo.TamanosInvalidosInicializacionException;
 	     * Es el panel donde se muestran los botones para controlar el juego
 	     */
 	    private PanelBotones panelBotones;
+	    
+	    private PanelInformacion panelInformacion;
 
 
 	    // -----------------------------------------------------------------
@@ -53,13 +55,15 @@ import mundo.TamanosInvalidosInicializacionException;
 	        {}
 	        setTitle( "VARA" );
 	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	        setSize( 400, 400 );
 	        setResizable( false );
+	        setSize( 400, 170 );
 
 	        panelBotones = new PanelBotones(this );
-
-	        setSize( 400, 400 );
+	        panelInformacion= new PanelInformacion(this);
+	        
+	        
 	        getContentPane( ).add( panelBotones, BorderLayout.NORTH );
+	        getContentPane( ).add( panelInformacion, BorderLayout.SOUTH );
 	    }
 	    // -----------------------------------------------------------------
 	    // M�todos
@@ -78,25 +82,7 @@ import mundo.TamanosInvalidosInicializacionException;
 	     */
 	    private void actualizar( )
 	    {
-//	        panelBuscaminas.actualizar( campoMinado );
-//	        int numeroMinas = campoMinado.darNumeroMinasRestantes( );
-//	        int tiempo = campoMinado.darTiempoTotal( );
-//	       
-//	        panelBarraEstado.actualizarMinas( numeroMinas );
-//	        panelBarraEstado.actualizarTiempo( tiempo );
-//
-//	        switch( modoActual )
-//	        {
-//	            case MODO_MARCAR:
-//	                panelBarraEstado.actualizarModo( "Marcar" );
-//	                break;
-//	            case MODO_DESMARCAR:
-//	                panelBarraEstado.actualizarModo( "Desmarcar" );
-//	                break;
-//	            case MODO_DESTAPAR:
-//	                panelBarraEstado.actualizarModo( "Destapar" );
-//	                break;
-//	        }
+	    	panelInformacion.actualizar();
 	    }
 
 	    /**
