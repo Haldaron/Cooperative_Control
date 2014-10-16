@@ -1,6 +1,3 @@
-package interfaz;
-
-public class PanelBotones {
 	/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 * $Id$ 
 	 * Universidad de los Andes (Bogot� - Colombia)
@@ -13,7 +10,7 @@ public class PanelBotones {
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	 */
 
-	package uniandes.cupi2.buscaminas.interfaz;
+	package interfaz;
 
 	import java.awt.Insets;
 	import java.awt.event.ActionEvent;
@@ -33,17 +30,12 @@ public class PanelBotones {
 	    // Constantes
 	    // -----------------------------------------------------------------
 
-	    private static final String BOTON_MODO_MARCAR = "Marcar";
-
-	    private static final String BOTON_MODO_DESMARCAR = "Desmarcar";
-
-	    private static final String BOTON_MODO_DESTAPAR = "Destapar";
 
 	    private static final String BOTON_INICIAR = "Iniciar";
 
-	    private static final String OPCION_1 = "OPCION_1";
+	    private static final String BOTON_STEP = "Step";
 
-	    private static final String OPCION_2 = "OPCION_2";
+	    private static final String BOTON_INGRESAR= "ingresar";
 
 	    // -----------------------------------------------------------------
 	    // Atributos
@@ -52,41 +44,21 @@ public class PanelBotones {
 	    /**
 	     * Es una referencia a la clase principal de la interfaz
 	     */
-	    private InterfazBuscaminas ventanaPrincipal;
+	    private Interfaz ventanaPrincipal;
 
 	    // -----------------------------------------------------------------
 	    // Atributos de Interfaz
 	    // -----------------------------------------------------------------
 
-	    /**
-	     * Es el bot�n para cambiar al modo marcar
-	     */
-	    private JButton botonMarcar;
-
-	    /**
-	     * Es el bot�n para cambiar al modo desmarcar
-	     */
-	    private JButton botonDesMarcar;
-
-	    /**
-	     * Es el bot�n para cambiar al modo destapar
-	     */
-	    private JButton botonDestapar;
 
 	    /**
 	     * Es el bot�n para (re)iniciar el campo minado
 	     */
 	    private JButton botonIniciar;
+	    private JButton botonIngresar;
+	    private JButton botonStep;
 
-	    /**
-	     * Es el bot�n para realizar la opci�n 1
-	     */
-	    private JButton opcion1;
 
-	    /**
-	     * Es el bot�n para realizar la opci�n 2
-	     */
-	    private JButton opcion2;
 
 	    // -----------------------------------------------------------------
 	    // Constructores
@@ -101,37 +73,30 @@ public class PanelBotones {
 	        ventanaPrincipal = ib;
 
 	        // inicializa el botonIniciar con la imagen y los valores predeterminados
-	        botonIniciar = new JButton( );
+	        botonIniciar = new JButton("Iniciar");
 
-	        botonIniciar.setIcon( new ImageIcon( "./data/iniciar.jpg" ) );
 	        botonIniciar.setMargin( new Insets( 1, 1, 1, 1 ) );
 	        botonIniciar.setActionCommand( BOTON_INICIAR );
 	        botonIniciar.setToolTipText( "Iniciar" );
 	        botonIniciar.addActionListener( this );
 	        add( botonIniciar );
- 
-	        // inicializa el botonDestapar con la imagen y los valores predeterminados
-	        botonDestapar = new JButton( );
-	        botonDestapar.setIcon( new ImageIcon( "./data/destapar.jpg" ) );
-	        botonDestapar.setMargin( new Insets( 1, 1, 1, 1 ) );
-	        botonDestapar.setToolTipText( "Destapar" );
-	        botonDestapar.setActionCommand( BOTON_MODO_DESTAPAR );
-	        botonDestapar.addActionListener( this );
-	        add( botonDestapar );
+	        
+	     // inicializa el botonIniciar con la imagen y los valores predeterminados
+	        botonStep = new JButton("Step");
+	        botonStep.setMargin( new Insets( 1, 1, 1, 1 ) );
+	        botonStep.setActionCommand( BOTON_STEP );
+	        botonStep.setToolTipText( "mover los autos" );
+	        botonStep.addActionListener( this );
+	        add( botonStep );
+	        
+	     // inicializa el botonIniciar con la imagen y los valores predeterminados
+	        botonIngresar = new JButton("Ingresar Posiciones");
 
-	        // inicializa el boton de la opci�n 1
-	        opcion1 = new JButton( "Opci�n 1" );
-	        opcion1.setToolTipText( "Opci�n 1" );
-	        opcion1.setActionCommand( OPCION_1 );
-	        opcion1.addActionListener( this );
-	        add( opcion1 );
-
-	        // inicializa el boton de la opci�n 2
-	        opcion2 = new JButton( "Opci�n 2" );
-	        opcion2.setToolTipText( "Opcion 2" );
-	        opcion2.setActionCommand( OPCION_2 );
-	        opcion2.addActionListener( this );
-	        add( opcion2 );
+	        botonIngresar.setMargin( new Insets( 1, 1, 1, 1 ) );
+	        botonIngresar.setActionCommand( BOTON_INGRESAR );
+	        botonIngresar.setToolTipText( "Ingresar" );
+	        botonIngresar.addActionListener( this );
+	        add( botonIngresar );
 	    }
 
 	    // -----------------------------------------------------------------
@@ -150,27 +115,15 @@ public class PanelBotones {
 	        {
 	            ventanaPrincipal.reiniciar( );
 	        }
-	        else if( BOTON_MODO_DESMARCAR.equals( comando ) )
+	        else if( BOTON_STEP.equals( comando ) )
 	        {
-	            ventanaPrincipal.cambiarModo( InterfazBuscaminas.MODO_DESMARCAR );
+	            ventanaPrincipal.avanzar();
 	        }
-	        else if( BOTON_MODO_MARCAR.equals( comando ) )
+	        else if( BOTON_INGRESAR.equals( comando ) )
 	        {
-	            ventanaPrincipal.cambiarModo( InterfazBuscaminas.MODO_MARCAR );
+	            ventanaPrincipal.ingresarPosiciones();
 	        }
-	        else if( BOTON_MODO_DESTAPAR.equals( comando ) )
-	        {
-	            ventanaPrincipal.cambiarModo( InterfazBuscaminas.MODO_DESTAPAR );
-	        }
-	        else if( OPCION_1.equals( comando ) )
-	        {
-	            ventanaPrincipal.reqFuncOpcion1( );
-	        }
-	        else if( OPCION_2.equals( comando ) )
-	        {
-	            ventanaPrincipal.reqFuncOpcion2( );
-	        }
+	       
 	    }
 	}
 
-}

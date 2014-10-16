@@ -61,7 +61,7 @@ public class Malla {
 	 * @param pY Posición en Y del huerto <br>
 	 */
 
-	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos, int pY, int pTiempoRecoleccion, int pNumFrutos, int pCodigo) throws TamanosInvalidosInicializacionException
+	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos) throws TamanosInvalidosInicializacionException
 	{
 		carros = new ArrayList<Carro>();
 		huertos = new ArrayList<Huerto>();

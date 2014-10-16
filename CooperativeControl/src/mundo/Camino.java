@@ -18,7 +18,7 @@ public class Camino {
 
 
 
-	public void añadirNodoAlfinal(Nodo n){
+	public void anadirNodoAlfinal(Nodo n){
 		secuencia.add(n);
 		verificarInvariante();
 		recalcularDistancia();
