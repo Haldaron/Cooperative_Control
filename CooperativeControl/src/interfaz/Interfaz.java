@@ -132,5 +132,11 @@ import mundo.TamanosInvalidosInicializacionException;
 			// TODO Auto-generated method stub
 			
 		}
+
+
+		public void cambiarPosiciones() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
