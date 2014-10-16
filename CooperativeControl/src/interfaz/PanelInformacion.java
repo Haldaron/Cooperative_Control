@@ -11,7 +11,7 @@
 	 */
 
 	package interfaz;
-
+	import mundo.*;
 	import java.awt.GridLayout;
 	import java.awt.Insets;
 	import java.awt.event.ActionEvent;
@@ -116,6 +116,9 @@
 	        txtCarro1Destino = new JTextField();
 	        txtCarro2Destino = new JTextField();
 	        txtCarro3Destino = new JTextField();
+	        txtCarro1Destino.setEditable(false);
+	        txtCarro2Destino.setEditable(false);
+	        txtCarro3Destino.setEditable(false);
 	        
 	        //add to Layout
 	        
@@ -143,8 +146,10 @@
 
 
 		public void actualizar() {
-			// TODO Auto-generated method stub
 			
+			 txtCarro1X.setText();
+		     txtCarro2X.setText(false);
+		     txtCarro3X.setText(false);
 		}
 	}
 

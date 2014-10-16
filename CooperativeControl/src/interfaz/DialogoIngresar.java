@@ -60,10 +60,9 @@ public class DialogoIngresar extends JDialog implements ActionListener
     {
     	principal = ib;
         setLayout(new GridLayout(5,3));
-
+        setSize(350,150);
         //Inicializando labels
         
-        lblDestino = new JLabel("Destino");
         lblX= new JLabel("X");
         lblY= new JLabel("Y");
         
@@ -134,20 +133,26 @@ public class DialogoIngresar extends JDialog implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("ACEPTAR"))
 		{
-						
+			try{
+				int carro1X=Integer.parseInt(txtCarro1X.getText());
+				int carro2X=Integer.parseInt(txtCarro2X.getText());
+				int carro3X=Integer.parseInt(txtCarro3X.getText());
+				
+				int carro1Y=Integer.parseInt(txtCarro1Y.getText());
+				int carro2Y=Integer.parseInt(txtCarro2Y.getText());
+				int carro3Y=Integer.parseInt(txtCarro3Y.getText());
+				principal.cambiarPosiciones(carro1X,carro1Y,carro2X,carro2Y,carro3X,carro3Y);
+				}
+				catch(Exception ex)
+				{
+					
+				}
+				
+				dispose();		
 		}
 		else if(e.getActionCommand().equals("CANCELAR"))
 		{
-			String carro1X=txtCarro1X.getText();
-			String carro2X=txtCarro2X.getText();
-			String carro3X=txtCarro3X.getText();
-			
-			String carro1Y=txtCarro1Y.getText();
-			String carro2Y=txtCarro2Y.getText();
-			String carro3Y=txtCarro3Y.getText();
-			
-			principal.cambiarPosiciones();
-			dispose();
+			dispose();	
 		}
 	}
 
