@@ -2,13 +2,13 @@
 	package interfaz;
 
 	import java.awt.BorderLayout;
-import java.io.File;
+	import java.io.File;
 
 	import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+	import javax.swing.JOptionPane;
 
-import mundo.Malla;
-import mundo.TamanosInvalidosInicializacionException;
+	import mundo.Malla;
+	import mundo.TamanosInvalidosInicializacionException;
 
 	/**
 	 * Esta es la clase principal de la interfaz del buscaminas
@@ -84,6 +84,11 @@ import mundo.TamanosInvalidosInicializacionException;
 	    {
 	    	panelInformacion.actualizar();
 	    }
+	    
+	    public Malla darMalla()
+	    {
+	    	return malla;
+	    }
 
 	    /**
 	     * Inicia un nuevo juego de buscaminas. El estado inicial del juego es: <br>
@@ -94,17 +99,17 @@ import mundo.TamanosInvalidosInicializacionException;
 	     */
 	    public void reiniciar( )
 	    {
-//	        campoMinado.inicializarJuego( );
-//	        modoActual = MODO_DESTAPAR;
-//	        panelBuscaminas.actualizar( campoMinado );
-//	        panelBuscaminas.actualizar( campoMinado );
-//
-//	        int numeroMinas = campoMinado.darNumeroMinas( );
-//	        int tiempo = campoMinado.darTiempoTotal( );
-//	        panelBarraEstado.actualizarMinas( numeroMinas );
-//	        panelBarraEstado.actualizarTiempo( tiempo );
-//	        panelBarraEstado.actualizarModo( "Destapar" );   
-
+	    	int[][] carrosIniciales={{0,0},{0,1},{0,2}};
+	    	Double[] angulosIniciales={0.0,0.0,0.0};
+	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
+	        try
+	        {
+	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
+	        }
+	        catch(Exception e)
+	        {
+	        	
+	        }
 	    }
 
 
@@ -123,19 +128,26 @@ import mundo.TamanosInvalidosInicializacionException;
 	        ib.setVisible( true );
 	    }
 
-		public void avanzar() {
+		public void avanzar()
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
-		public void ingresarPosiciones() {
-			// TODO Auto-generated method stub
+		public void ingresarPosiciones() 
+		{
+			DialogoIngresar dialogo = new DialogoIngresar( this );
+			dialogo.setLocationRelativeTo( this );
+			dialogo.setVisible( true );
 			
 		}
 
 
-		public void cambiarPosiciones() {
+		public void cambiarPosiciones(int carro1X,int carro1Y,int carro2X,int carro2Y,int carro3X,int carro3Y)
+		{
 			// TODO Auto-generated method stub
+			//malla.cambiarPosiciones(carro1X,carro1Y,carro2X,carro2Y,carro3X,carro3Y);
+			actualizar();
 			
 		}
 	}
