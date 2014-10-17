@@ -47,12 +47,7 @@
 	    	int[][] carrosIniciales={{0,0},{0,1},{0,2}};
 	    	Double[] angulosIniciales={0.0,0.0,0.0};
 	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
-	        try
-	        {
-	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
-	        }
-	        catch(Exception e)
-	        {}
+
 	        setTitle( "VARA" );
 	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	        setResizable( false );
@@ -106,8 +101,9 @@
 	        {
 	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
 	        }
-	        catch(Exception e)
+	        catch(TamanosInvalidosInicializacionException e)
 	        {
+	        	JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Inicialización", JOptionPane.ERROR_MESSAGE);
 	        	
 	        }
 	    }
