@@ -72,7 +72,8 @@ public class Malla {
 		inicializarMalla();
 
 		crearGrafo(malla);
-
+		asignarRutas();
+		optimizarCaminos();
 
 	}
 
@@ -108,10 +109,12 @@ public class Malla {
 				&& inicialesC[1].length==CARCODES.length 
 				&& angulos.length==CARCODES.length)
 		{
-			for(int i =0; i<CARCODES.length;i++){
+			for(int i =0; i<CARCODES.length;i++)
+			{
 				carros.set(i, new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
 			}		
-		}else{
+		}else
+		{
 			throw new TamanosInvalidosInicializacionException();
 		}
 	}
@@ -132,20 +135,17 @@ public class Malla {
 
 				if(h0)
 					malla[i][j] =huerto0 ;
-
 				else if(h1)
 					malla[i][j]=huerto1;
-
 				else if(h2)
 					malla[i][j]=huerto2;
-
 				else
 					malla[i][j]= new Nodo(j,i);
 			}
 		}
 	}
 
-	public void inicializarRutas(){
+	public void asignarRutas(){
 		for (Carro car :carros) 
 		{
 			asignarPosiblesCaminos(car, huertos);
