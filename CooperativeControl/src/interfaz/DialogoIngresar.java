@@ -72,6 +72,9 @@ public class DialogoIngresar extends JDialog implements ActionListener
         
         //Inicializando textos
         
+        
+        //fsefsefs
+        
         txtCarro1X = new JTextField();
         txtCarro2X = new JTextField();
         txtCarro3X = new JTextField();
