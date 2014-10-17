@@ -12,6 +12,7 @@ public class Carro {
 	public double angulo;
 	public double velocidad;
 	public int carga;
+	public boolean cargado;
 	
 	public Carro(int cod, int posXinicial, int posYinicial, double angInicial){
 		codigo=cod;

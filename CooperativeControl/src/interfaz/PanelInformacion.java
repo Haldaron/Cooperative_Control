@@ -145,9 +145,9 @@
 
 
 
-		public void actualizar() {
-			
-			 txtCarro1X.setText();
+		public void actualizar(Malla malla) {
+						
+			 txtCarro1X.setText(malla);
 		     txtCarro2X.setText(false);
 		     txtCarro3X.setText(false);
 		}
