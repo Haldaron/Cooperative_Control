@@ -12,13 +12,14 @@
 
 	package interfaz;
 
-	import java.awt.Insets;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
+	import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 	import javax.swing.ImageIcon;
-	import javax.swing.JButton;
-	import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 	/**
 	 * Es el panel donde se muestran los botones para jugar y los botones con las opciones de extensi�n.
@@ -35,7 +36,7 @@
 
 	    private static final String BOTON_STEP = "Step";
 
-	    private static final String BOTON_INGRESAR= "ingresar";
+	    private static final String BOTON_INGRESAR= "Ingresar";
 
 	    // -----------------------------------------------------------------
 	    // Atributos
@@ -71,6 +72,8 @@
 	    public PanelBotones( Interfaz ib )
 	    {
 	        ventanaPrincipal = ib;
+	        
+	        setLayout(new GridLayout(1, 3));
 
 	        // inicializa el botonIniciar con la imagen y los valores predeterminados
 	        botonIniciar = new JButton("Iniciar");
