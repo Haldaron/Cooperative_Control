@@ -146,7 +146,18 @@
 		public void cambiarPosiciones(int carro1X,int carro1Y,int carro2X,int carro2Y,int carro3X,int carro3Y)
 		{
 			// TODO Auto-generated method stub
-			//malla.cambiarPosiciones(carro1X,carro1Y,carro2X,carro2Y,carro3X,carro3Y);
+			
+	    	int[][] carrosIniciales={{carro1X,carro1Y},{carro2X,carro2Y},{carro3X,carro3Y}};
+	    	Double[] angulosIniciales={0.0,0.0,0.0};
+	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
+	        try
+	        {
+	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
+	        }
+	        catch(Exception e)
+	        {
+	        	
+	        }
 			actualizar();
 			
 		}
