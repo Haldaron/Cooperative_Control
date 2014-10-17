@@ -19,7 +19,7 @@ public class Carro {
 		posX=posXinicial;
 		posY=posYinicial;
 		caminoEnSeguimiento =null;
-		posiblesCaminos=new Camino[3];
+		posiblesCaminos=new Camino[4];
 		angulo=angInicial;
 		velocidad=0;
 		carga=0;

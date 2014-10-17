@@ -14,9 +14,6 @@ public class Camino {
 		codigo=cod;
 	}
 	
-	
-
-
 
 	public void anadirNodoAlfinal(Nodo n){
 		secuencia.add(n);
