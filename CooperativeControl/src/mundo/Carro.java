@@ -2,7 +2,6 @@ package mundo;
 
 public class Carro {
 	
-	
 	public final static int CAPACIDAD=9;
 	
 	public int codigo;
