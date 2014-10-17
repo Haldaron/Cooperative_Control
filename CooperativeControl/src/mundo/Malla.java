@@ -41,7 +41,7 @@ public class Malla {
 	/**
 	 * Vector con los huertos presentes en el terreno.<br>
 	 */
-	private ArrayList<Huerto> huertos;
+	private ArrayList<Nodo> huertos;
 
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
 
@@ -61,10 +61,10 @@ public class Malla {
 	 * @param pY Posición en Y del huerto <br>
 	 */
 
-	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos) throws TamanosInvalidosInicializacionException
+	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos, int pY, int pTiempoRecoleccion, int pNumFrutos, int pCodigo) throws TamanosInvalidosInicializacionException
 	{
 		carros = new ArrayList<Carro>();
-		huertos = new ArrayList<Huerto>();
+		huertos = new ArrayList<Nodo>();
 		malla= new Nodo[N][N];
 
 		inicializarCarros(inicialesCarros, angulosCarros);
@@ -96,6 +96,11 @@ public class Malla {
 		huertos.set(0, new Huerto(iniciales[2][0],iniciales[2][1],iniciales[2][2],iniciales[2][3],CROPCODES[2]));
 	}
 
+	public void crearGrafo(Nodo[][] grid){
+
+		rGrafo= new Grafo(grid);
+
+	}
 
 	public void inicializarCarros(int[][] inicialesC, Double[] angulos) throws TamanosInvalidosInicializacionException
 	{	
@@ -113,9 +118,9 @@ public class Malla {
 
 	public void inicializarMalla()
 	{
-		Huerto huerto0=huertos.get(0);
-		Huerto huerto1=huertos.get(1);
-		Huerto huerto2=huertos.get(2);
+		Huerto huerto0=(Huerto) huertos.get(0);
+		Huerto huerto1=(Huerto) huertos.get(1);
+		Huerto huerto2=(Huerto) huertos.get(2);
 
 		for(int i=0;i<N;i++)
 		{
@@ -140,19 +145,68 @@ public class Malla {
 		}
 	}
 
+	public void inicializarRutas(){
+		for (Carro car :carros) 
+		{
+			asignarPosiblesCaminos(car, huertos);
+			
+		}
+	}
+	
 
-	
-	
-	public void crearGrafo(Nodo[][] grid){
-		
-		rGrafo= new Grafo(grid);
+	//Métodos de cálculo y optimización de caminos.	
+
+	/**
+	 * Calcula y retorna el bfs en una clase FindPath para el carro pasado por parámetro
+	 * @param c
+	 */
+	public FindPath bfsCarroi(Carro c)
+	{
+		return new FindPath(rGrafo, c.getPosY()*N+c.getPosX());
 
 	}
 
-	
-	
+	/**
+	 * Construye un camino para un Carro con buscador FindPath fp , y un nodo objetivo con código asociado codObjetivo pasado por
+	 * parámetro.
+	 * @param stackCamino LIFO en eal que se encuentran almacenados las posiciones consecutivas de los nodos de un camino 
+	 * @param codObjetivo Codigo del nodo al cual se dirige el carro
+	 * @return
+	 */
+	public Camino construirCamino(FindPath fp, int codObjetivo){
+		Iterable<Integer> stackCamino= fp.caminoA(codObjetivo);
+		Iterator<Integer> it= stackCamino.iterator();
+		Camino cRta= new Camino(codObjetivo);
 
+		int x=0;
+		int y=0;
+		int sig=0;
+		Nodo aIngresar=null;
+		while(it.hasNext())
+		{
+			sig=it.next();
+			x=sig%N;
+			y=(sig-x)/N;
+			aIngresar=malla[x][y];
+			cRta.anadirNodoAlfinal(aIngresar);
 
+		}
+
+		return cRta;
+	}
+
+	/**
+	 * Asigna los posibles caminos a cada uno de los nodos objetivo(objs) al carro c paasado por parámetro
+	 * @param c Carro c al cual se le calcularán los posibles caminos.
+	 * @param objs ArrayList de objetivos con los nodos posibles a los cuales se puede dirigir el carro c
+	 */
+	public void asignarPosiblesCaminos(Carro c,ArrayList<Nodo> objs){
+		FindPath fpActual= bfsCarroi(c);
+		for(Nodo n : objs)
+		{
+			construirCamino(fpActual, n.getPosY()*N+n.getPosX());
+		}
+	}
 
 	public void optimizarCaminos()
 
