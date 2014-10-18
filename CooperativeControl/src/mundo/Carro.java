@@ -47,6 +47,11 @@ public class Carro {
 		posiblesCaminos[i]=c;
 	}
 	
+	public boolean getCargado()
+	{
+		return cargado;
+	}
+	
 	/**
 	 * @return the codigo
 	 */
@@ -63,8 +68,8 @@ public class Carro {
 	/**
 	 * @param camiloEnSeguimiento the camiloEnSeguimiento to set
 	 */
-	public void setCaminoEnSeguimiento(Camino caminoEnSeguimiento) {
-		this.caminoEnSeguimiento = caminoEnSeguimiento;
+	public void setCaminoEnSeguimiento(int caminoEnSeguimiento) {
+		this.caminoEnSeguimiento = posiblesCaminos[caminoEnSeguimiento];
 	}
 
 	/**
@@ -145,7 +150,15 @@ public class Carro {
 	 * @param carga the carga to set
 	 */
 	public void setCarga(int carga) {
-		this.carga = carga;
+		if(!cargado)
+		{
+			this.carga = carga;
+			if (carga==CAPACIDAD)
+			{
+				cargado=true;
+			}
+		}
+	
 	}
 	
 	

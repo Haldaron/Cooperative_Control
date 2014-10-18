@@ -4,82 +4,142 @@ import java.util.ArrayList;
 
 public class OptimizacionCaminos {
 	
-private ArrayList<Camino[]> conjuntoCaminos; 
-	
-	private Integer[] indexHuertosFinales;
+	private ArrayList<Camino[]> conjuntoCaminos; 
+	private ArrayList<Camino> conjuntoCaminosOptimizados;
 	private Carro[] carros;
+	private double minCost;
 	
-	
-	public OptimizacionCaminos(ArrayList pConjuntoCaminos, Carro[] pCarros)
+	/**
+	 * Cosntructor de la clase
+	 * @param pCarros Carros con sus atributos en el momento de la cración del objeto
+	 */
+	public OptimizacionCaminos(Carro[] pCarros)
 	{
 		
 		carros=pCarros;
-		conjuntoCaminos= pConjuntoCaminos;
+		conjuntoCaminosOptimizados = new ArrayList<Camino>();
+		conjuntoCaminos= new ArrayList<Camino[]>();
+		for(int i=0;i<carros.length;i++)
+		{
+			conjuntoCaminos.add(carros[i].getPosiblesCaminos());
+		}
 		optimizarCaminos();
 	}
 	
-	public Integer[] getIndexHuertosFinales()
+	
+	public ArrayList darConjuntoCaminosOptimizado()
 	{
-		return indexHuertosFinales;
+		return conjuntoCaminosOptimizados;
 	}
 	
+	
+	/**
+	 * Método principal encargado de la optimización de los caminos escogidos para cada vehículo. 
+	 */
 	private void optimizarCaminos()
 	{
-		ArrayList<Camino[]> conjuntoCaminosOptimizado=new ArrayList();
+		ArrayList<Integer> disponibles = new ArrayList<Integer>(); //metas disónibles
+		ArrayList<Integer> asignados = new ArrayList<Integer>();  //metas asignadas
 	
-		for(int i=0;i<carros.length;i++)
-		{
-			carros[i].darCargado;
-			
-		}
-		double minCost=0;
+		//Asignando camino a bodega para los autos cargados, se elimina el camino a bodega de todos los autos
+		asignarABodega();
+		
+		//Valor base para la función a optimizar
+		minCost=0;	
 		for(int i=0;i<conjuntoCaminos.size();i++)
 		{
-			minCost+=conjuntoCaminos.get(i)[i].getLongitudCamino();
-			
+			minCost+=conjuntoCaminos.get(i)[i].getLongitudCamino();	
 		}
+		
+		//Creando vector
+		for(int i=0;i<conjuntoCaminos.get(0).length;i++)
+		{
+			disponibles.add(i);
+		}
+		
+		//Hallando asignación de caminos óptima
+		asignados = asignarCaminos(disponibles,asignados);
+		
+		//Asignando el camino escogido a cada vehículo
+		for(int i=0;i<asignados.size();i++)
+		{
+			if()conjuntoCaminosOptimizados.add(conjuntoCaminos.get(i)[asignados.get(i)]);
+		}
+		
+				
 	}
 	
-//	
-//	private void optimizarCaminos()
-//	{
-//		double minCost=carro0[0].getLongitudCamino()+carro1[1].getLongitudCamino()+carro2[2].getLongitudCamino();
-//		ArrayList<Integer> index= new ArrayList<Integer>();
-//		Integer[] indexMejorSet= new Integer[3];
-//		Integer[] indexParciales= new Integer[3];
-//		
-//		
-//		  
-//		for(int i=0; i<3;i++)
-//		{
-//			index.add(0);
-//			index.add(1);
-//			index.add(2);
-//
-//			indexParciales[0]=i;
-//			index.remove(i);
-//			
-//			for(int j=0;j<2;i++)
-//			{
-//				indexParciales[1]=j;
-//				index.remove(j);
-//				indexParciales[2]=index.get(0);
-//				
-//				double costoParcial=calcularCostoCaminos(indexParciales);
-//				
-//				if(costoParcial<minCost)
-//				{
-//					minCost=costoParcial;
-//					indexMejorSet=indexParciales;
-//				}
-//			}
-//		}
-//		indexHuertosFinales=indexMejorSet;
-//	}
-//	public double calcularCostoCaminos(Integer[] index)
-//	{
-//		return carro0[index[0]].getLongitudCamino()+carro1[index[1]].getLongitudCamino()+carro1[index[2]].getLongitudCamino();
-//	}
-//
-//		
+	/**
+	 * Método que revisa si cada carro está cargado. De estarlo, se le asigna camino a bodega. Además se elimina el camino a bodega 
+	 * de los caminos posibles a todos los autos
+	 */
+	public void asignarABodega()
+	{		
+		for(int i=0;i<carros.length;i++)
+		{
+			if(!carros[i].getCargado())
+			{
+				
+				//Creando nievo Camini[] eliminando el camino a bodega (que está en la última posición)
+				Camino[] nuevo = new Camino[conjuntoCaminos.get(0).length-1];
+				for(int j=0;j<conjuntoCaminos.get(0).length-1;j++)
+				{
+					nuevo[j]=conjuntoCaminos.get(i)[j];
+				}
+				//Asignando el nuevo Camino[] al conjunto caminos
+				conjuntoCaminos.add(i,nuevo);
+				
+			}
+		}
+		int eliminados=0;
+		for(int i=0;i<carros.length;i++)
+		{
+			if(carros[i].getCargado())
+			{
+				conjuntoCaminosOptimizados.add(i,conjuntoCaminos.get(i)[5]);
+				conjuntoCaminos.remove(i-eliminados);
+				eliminados++;
+			}
+		}
+		
+		
+	}
+	
+	
+	private ArrayList<Integer> asignarCaminos(ArrayList<Integer> disponibles, ArrayList<Integer> asignados)
+	{
+		ArrayList<Integer> asignadosLocal;
+		ArrayList<Integer> disponiblesLocal;
+		
+		
+		if(asignados.size()==carros.length)
+		{
+			double costo=0;
+			for(int i=0;i<asignados.size();i++)
+			{
+				costo+=conjuntoCaminos.get(i)[asignados.get(i)].getLongitudCamino();
+			}
+			if(costo<minCost)
+			{
+				minCost=costo;
+			}	
+		}
+		else
+		{
+			for(int i=0;i<disponibles.size();i++)
+			{
+				asignadosLocal=asignados;
+				disponiblesLocal=disponibles;
+				
+				asignadosLocal.add(disponiblesLocal.get(i));
+				disponiblesLocal.remove(i);
+				asignarCaminos(disponiblesLocal,asignadosLocal);
+				
+			}
+		}
+		
+		return asignados;
+	}
+	
+	
 }
