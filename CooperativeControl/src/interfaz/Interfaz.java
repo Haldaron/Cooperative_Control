@@ -44,6 +44,7 @@
 	    public Interfaz( )
 	    {
 	    	
+	    	
 	    	int[][] carrosIniciales={{0,0},{0,1},{0,2}};
 	    	Double[] angulosIniciales={0.0,0.0,0.0};
 	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
@@ -75,11 +76,6 @@
 	    /**
 	     * Actualiza el panel del buscaminas y la barra de estado
 	     */
-	    private void actualizar( )
-	    {
-	    	panelInformacion.actualizar();
-	    }
-	    
 	    public Malla darMalla()
 	    {
 	    	return malla;
@@ -92,22 +88,6 @@
 	     * El tiempo de inicio del juego se inicializa en cero. <br>
 	     * El modo de juego es destapar.
 	     */
-	    public void reiniciar( )
-	    {
-	    	int[][] carrosIniciales={{0,0},{0,1},{0,2}};
-	    	Double[] angulosIniciales={0.0,0.0,0.0};
-	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
-	        try
-	        {
-	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
-	        }
-	        catch(TamanosInvalidosInicializacionException e)
-	        {
-	        	JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Inicialización", JOptionPane.ERROR_MESSAGE);
-	        	
-	        }
-	    }
-
 
 
 	    // -----------------------------------------------------------------
@@ -130,33 +110,28 @@
 			
 		}
 		
-
-		public void ingresarPosiciones() 
-		{
-			DialogoIngresar dialogo = new DialogoIngresar( this );
-			dialogo.setLocationRelativeTo( this );
-			dialogo.setVisible( true );
+		public void editar( )
+	    {
+	    	panelInformacion.editar();
+	    }
+		
+		public void iniciar(){
+			panelInformacion.iniciar();
 			
-		}
-
-
-		public void cambiarPosiciones(int carro1X,int carro1Y,int carro2X,int carro2Y,int carro3X,int carro3Y)
-		{
-			// TODO Auto-generated method stub
-			
-	    	int[][] carrosIniciales={{carro1X,carro1Y},{carro2X,carro2Y},{carro3X,carro3Y}};
 	    	Double[] angulosIniciales={0.0,0.0,0.0};
-	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
+			int carrosIniciales[][]=panelInformacion.darCarrosIniciales();
+			int huertosIniciales[][]= panelInformacion.darHuertosIniciales();
 	        try
 	        {
 	            malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
 	        }
-	        catch(Exception e)
+	        catch(TamanosInvalidosInicializacionException e)
 	        {
+	        	JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Inicialización", JOptionPane.ERROR_MESSAGE);
 	        	
 	        }
-			actualizar();
 			
 		}
+		
 	}
 
