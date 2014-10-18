@@ -146,6 +146,27 @@ import javax.swing.border.TitledBorder;
 	        txtCrops=new JTextField[NUM_COORD][NUM_HUERTOS];
 	        
 	        //Set the Default Crops and Cars initial positions 
+	    	txtCarro1X = new JTextField();
+	        txtCarro1Y = new JTextField();
+
+	        txtCarro2X = new JTextField();
+	        txtCarro2Y = new JTextField();
+
+	        txtCarro3X = new JTextField();
+	        txtCarro3Y = new JTextField();
+
+	        txtHuerto1X = new JTextField();
+	        txtHuerto1Y = new JTextField();
+	        
+	        txtHuerto2X = new JTextField();
+	        txtHuerto2Y = new JTextField();
+	        
+	        txtHuerto3X = new JTextField();
+	        txtHuerto3Y = new JTextField();
+	        
+	        txtHuerto4X = new JTextField();
+	        txtHuerto4Y = new JTextField();
+	        
 	        setDefault();
 	        
 	        //Instatiate the arrays containing the intitial positions for cars and crops
@@ -155,22 +176,22 @@ import javax.swing.border.TitledBorder;
 	        
 	        //Añadir JTextFields asociados a los carros al arreglo destinado para contenerlos
 	        txtCars[0][0]=txtCarro1X;
-	        txtCars[0][1]=txtCarro1Y;
-	        txtCars[1][0]=txtCarro2X;
+	        txtCars[1][0]=txtCarro1Y;
+	        txtCars[0][1]=txtCarro2X;
 	        txtCars[1][1]=txtCarro2Y;
-	        txtCars[2][0]=txtCarro3X;
-	        txtCars[2][1]=txtCarro3Y;
+	        txtCars[0][2]=txtCarro3X;
+	        txtCars[1][2]=txtCarro3Y;
 	        
 	        //Añadir JTextFields asociados a los huertos al arreglo destinado para contenerlos
 	        
 	        txtCrops[0][0]=txtHuerto1X;
-	        txtCrops[0][1]=txtHuerto1Y;
-	        txtCrops[1][0]=txtHuerto2X;
+	        txtCrops[1][0]=txtHuerto1Y;
+	        txtCrops[0][1]=txtHuerto2X;
 	        txtCrops[1][1]=txtHuerto2Y;
-	        txtCrops[2][0]=txtHuerto3X;
-	        txtCrops[2][1]=txtHuerto3Y;
-	        txtCrops[3][0]=txtHuerto4X;
-	        txtCrops[3][1]=txtHuerto4Y;
+	        txtCrops[0][2]=txtHuerto3X;
+	        txtCrops[1][2]=txtHuerto3Y;
+	        txtCrops[0][3]=txtHuerto4X;
+	        txtCrops[1][3]=txtHuerto4Y;
 
 	       
 	        pCarros.add(empty);
@@ -214,49 +235,45 @@ import javax.swing.border.TitledBorder;
 	        
 	    }
 
-	    private void setDefault(){
-
-	    	txtCarro1X = new JTextField(CAR1[0]);
+	    public void setDefault(){
+	    	
+	    	txtCarro1X.setText(String.valueOf(CAR1[0]));
 	        txtCarro1X.setEditable(true);
-	        txtCarro1Y = new JTextField(CAR1[1]);
+	        txtCarro1Y.setText(String.valueOf(CAR1[1]));
 	        txtCarro1Y.setEditable(true);
 
-	        txtCarro2X = new JTextField(CAR2[0]);
+	        txtCarro2X.setText(String.valueOf(CAR2[0]));
 	        txtCarro2X.setEditable(true);
-	        txtCarro2Y = new JTextField(CAR2[1]);
+	        txtCarro2Y.setText(String.valueOf(CAR2[1]));
 	        txtCarro2Y.setEditable(true);
 
-	        txtCarro3X = new JTextField(CAR3[0]);
+	        txtCarro3X.setText(String.valueOf(CAR3[0]));
 	        txtCarro3X.setEditable(true);
-	        txtCarro3Y = new JTextField(CAR3[1]);
+	        txtCarro3Y.setText(String.valueOf(CAR3[1]));
 	        txtCarro3Y.setEditable(true);
 
-	        txtHuerto1X = new JTextField(HUERTO1[0]);
+	        txtHuerto1X.setText(String.valueOf(HUERTO1[0]));
 	        txtHuerto1X.setEditable(true);
-	        txtHuerto1Y = new JTextField(HUERTO1[1]);
+	        txtHuerto1Y.setText(String.valueOf(HUERTO1[1]));
 	        txtHuerto1Y.setEditable(true);
 	        
-	        txtHuerto2X = new JTextField(HUERTO2[0]);
+	        txtHuerto2X.setText(String.valueOf(HUERTO2[0]));
 	        txtHuerto2X.setEditable(true);
-	        txtHuerto2Y = new JTextField(HUERTO2[1]);
+	        txtHuerto2Y.setText(String.valueOf(HUERTO2[1]));
 	        txtHuerto2Y.setEditable(true);
 	        
-	        txtHuerto3X = new JTextField(HUERTO3[0]);
+	        txtHuerto3X.setText(String.valueOf(HUERTO3[0]));
 	        txtHuerto3X.setEditable(true);
-	        txtHuerto3Y = new JTextField(HUERTO3[1]);
+	        txtHuerto3Y.setText(String.valueOf(HUERTO3[1]));
 	        txtHuerto3Y.setEditable(true);
 	        
-	        txtHuerto4X = new JTextField(HUERTO4[0]);
+	        txtHuerto4X.setText(String.valueOf(HUERTO4[0]));
 	        txtHuerto4X.setEditable(true);
-	        txtHuerto4Y = new JTextField(HUERTO4[1]);
+	        txtHuerto4Y.setText(String.valueOf(HUERTO4[1]));
 	        txtHuerto4Y.setEditable(true);
+
 	    }
 	    
-		public void editar() {
-			// TODO Auto-generated method stub
-			
-		}
-		
 		/**
 		 * Método que interpone como no editable los campos de texto del panel de infomación.
 		 */
@@ -278,18 +295,36 @@ import javax.swing.border.TitledBorder;
 			txtHuerto1Y.setEditable(false);
 			txtHuerto1Y.setEditable(false);
 		}
-
+		
+		
+		
 		public int[][] darCarrosIniciales() 
 		{
 			int[][] rta= new int[2][3];
-			for(int i=0; i <NUM_CARS;i++)
+			for(int i=0; i <NUM_COORD;i++)
 			{
-				for(int j =0; j<CARROS_INICIALES[i].length;i++)
+				for(int j =0; j<NUM_CARS;i++)
 				{
+					rta[i][j]=Integer.parseInt(txtCars[i][j].getText());
 				}
 			}
 			return rta;
 		}
+		
+		public int [][] darHuertosIniciales(){
+			int[][] rta= new int[2][4];
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;i++)
+				{
+					rta[i][j]=Integer.parseInt(txtCrops[i][j].getText());
+				}
+			}
+			return rta;
+			
+		}
+		
+
 		
 		
 		

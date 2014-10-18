@@ -112,7 +112,7 @@
 		
 		public void editar( )
 	    {
-	    	panelInformacion.editar();
+	    	panelInformacion.setDefault();
 	    }
 		
 		public void iniciar(){
