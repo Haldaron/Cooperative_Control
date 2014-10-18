@@ -162,6 +162,15 @@ import javax.swing.border.TitledBorder;
 	        txtCars[2][1]=txtCarro3Y;
 	        
 	        //Añadir JTextFields asociados a los huertos al arreglo destinado para contenerlos
+	        
+	        txtCrops[0][0]=txtHuerto1X;
+	        txtCrops[0][1]=txtHuerto1Y;
+	        txtCrops[1][0]=txtHuerto2X;
+	        txtCrops[1][1]=txtHuerto2Y;
+	        txtCrops[2][0]=txtHuerto3X;
+	        txtCrops[2][1]=txtHuerto3Y;
+	        txtCrops[3][0]=txtHuerto4X;
+	        txtCrops[3][1]=txtHuerto4Y;
 
 	       
 	        pCarros.add(empty);
