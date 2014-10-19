@@ -123,17 +123,17 @@
 	    	Double[] angulosIniciales={0.0,0.0,0.0};
 			int carrosIniciales[][]=panelInformacion.darCarrosIniciales();
 			int huertosIniciales[][]= panelInformacion.darHuertosIniciales();
-	        /**
+
 			try
 	        {
-	           // malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
+	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
 	        }
 	        catch(TamanosInvalidosInicializacionException e)
 	        {
 	        	JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Inicialización", JOptionPane.ERROR_MESSAGE);
 	        	
 	        }
-	        */
+
 			
 		}
 		
