@@ -88,12 +88,12 @@ import javax.swing.JPanel;
 	        botonStep = new JButton("Step");
 	        botonStep.setMargin( new Insets( 1, 1, 1, 1 ) );
 	        botonStep.setActionCommand( BOTON_STEP );
-	        botonStep.setToolTipText( "mover los autos" );
+	        botonStep.setToolTipText( "Mover los autos" );
 	        botonStep.addActionListener( this );
 	        add( botonStep );
 	        
 	     // inicializa el botonIniciar con la imagen y los valores predeterminados
-	        botonIngresar = new JButton("Ingresar Posiciones");
+	        botonIngresar = new JButton("Editar");
 
 	        botonIngresar.setMargin( new Insets( 1, 1, 1, 1 ) );
 	        botonIngresar.setActionCommand( BOTON_EDITAR );

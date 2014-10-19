@@ -36,7 +36,7 @@ import javax.swing.border.TitledBorder;
 		private final static int[] HUERTO1={5,7};
 		private final static int[] HUERTO2={6,7};
 		private final static int[] HUERTO3={1,9};
-		private final static int[] HUERTO4={1,10};
+		private final static int[] HUERTO4={1,8};
     	
     	private final static int[][] HUERTOS_INICIALEs={HUERTO1,HUERTO2,HUERTO3,HUERTO4};
     	
@@ -75,9 +75,13 @@ import javax.swing.border.TitledBorder;
 	    private JTextField 	txtCarro3X;
 	    private JTextField 	txtCarro3Y;
 	    
-	    private JLabel		lblX;
-	    private JLabel		lblY;
-	    private JLabel 		empty;
+	    private JLabel		lblXC;
+	    private JLabel		lblYC;
+	    private JLabel 		emptyC;
+	    
+	    private JLabel		lblXH;
+	    private JLabel		lblYH;
+	    private JLabel 		emptyH;
 	    
 	    private JLabel		lblHuerto1;
 	    private JTextField 	txtHuerto1X;
@@ -125,13 +129,17 @@ import javax.swing.border.TitledBorder;
 
 	        JPanel pHuertos= new JPanel();
 	        pHuertos.setLayout(new GridLayout(5,3));
-	        pHuertos.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Carros" ) ) );
+	        pHuertos.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Huertos" ) ) );
 	    	
 	    	
 	        //Instanciar Labels y TextFields del panel
-	        lblX= new JLabel("X");
-	        lblY= new JLabel("Y");
-	        empty= new JLabel("");
+	        lblXC= new JLabel("X");
+	        lblYC= new JLabel("Y");
+	        emptyC= new JLabel("");
+	        
+	        lblXH= new JLabel("X");
+	        lblYH= new JLabel("Y");
+	        emptyH= new JLabel("");
 	        
 	        lblCarro1= new JLabel("Carro 1");
 	        lblCarro2= new JLabel("Carro 2");
@@ -194,9 +202,9 @@ import javax.swing.border.TitledBorder;
 	        txtCrops[1][3]=txtHuerto4Y;
 
 	       
-	        pCarros.add(empty);
-	        pCarros.add(lblX);
-	        pCarros.add(lblY);
+	        pCarros.add(emptyC);
+	        pCarros.add(lblXC);
+	        pCarros.add(lblYC);
 	        
 	        pCarros.add(lblCarro1);
 	        pCarros.add(txtCarro1X);
@@ -210,9 +218,9 @@ import javax.swing.border.TitledBorder;
 	        pCarros.add(txtCarro3X);
 	        pCarros.add(txtCarro3Y);
 	        
-	        pHuertos.add(empty);
-	        pHuertos.add(lblX);
-	        pHuertos.add(lblY);
+	        pHuertos.add(emptyH);
+	        pHuertos.add(lblXH);
+	        pHuertos.add(lblYH);
 	        
 	        pHuertos.add(lblHuerto1);
 	        pHuertos.add(txtHuerto1X);
@@ -290,20 +298,22 @@ import javax.swing.border.TitledBorder;
 			txtHuerto1X.setEditable(false);
 			txtHuerto2X.setEditable(false);
 			txtHuerto3X.setEditable(false);
+			txtHuerto4X.setEditable(false);
 			
 			txtHuerto1Y.setEditable(false);
-			txtHuerto1Y.setEditable(false);
-			txtHuerto1Y.setEditable(false);
+			txtHuerto2Y.setEditable(false);
+			txtHuerto3Y.setEditable(false);
+			txtHuerto4Y.setEditable(false);
 		}
 		
 		
 		
 		public int[][] darCarrosIniciales() 
 		{
-			int[][] rta= new int[2][3];
+			int[][] rta= new int[NUM_COORD][NUM_CARS];
 			for(int i=0; i <NUM_COORD;i++)
 			{
-				for(int j =0; j<NUM_CARS;i++)
+				for(int j =0; j<NUM_CARS;j++)
 				{
 					rta[i][j]=Integer.parseInt(txtCars[i][j].getText());
 				}
@@ -312,10 +322,10 @@ import javax.swing.border.TitledBorder;
 		}
 		
 		public int [][] darHuertosIniciales(){
-			int[][] rta= new int[2][4];
+			int[][] rta= new int[NUM_COORD][NUM_HUERTOS];
 			for(int i=0; i <NUM_COORD;i++)
 			{
-				for(int j =0; j<NUM_HUERTOS;i++)
+				for(int j =0; j<NUM_HUERTOS;j++)
 				{
 					rta[i][j]=Integer.parseInt(txtCrops[i][j].getText());
 				}
