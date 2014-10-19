@@ -38,7 +38,7 @@ import javax.swing.border.TitledBorder;
 		private final static int[] HUERTO3={1,9};
 		private final static int[] HUERTO4={1,8};
     	
-    	private final static int[][] HUERTOS_INICIALEs={HUERTO1,HUERTO2,HUERTO3,HUERTO4};
+    	private final static int[][] HUERTOS_INICIALES={HUERTO1,HUERTO2,HUERTO3,HUERTO4};
     	
     	private final static int NUM_COORD=2;
     	private final static int NUM_CARS=3;
@@ -179,7 +179,7 @@ import javax.swing.border.TitledBorder;
 	        
 	        //Instatiate the arrays containing the intitial positions for cars and crops
 	        cars=CARROS_INICIALES;
-	        crops=HUERTOS_INICIALEs;
+	        crops=HUERTOS_INICIALES;
 	        
 	        
 	        //Añadir JTextFields asociados a los carros al arreglo destinado para contenerlos
@@ -244,42 +244,28 @@ import javax.swing.border.TitledBorder;
 	    }
 
 	    public void setDefault(){
+	    	JTextField actual=null;
 	    	
-	    	txtCarro1X.setText(String.valueOf(CAR1[0]));
-	        txtCarro1X.setEditable(true);
-	        txtCarro1Y.setText(String.valueOf(CAR1[1]));
-	        txtCarro1Y.setEditable(true);
-
-	        txtCarro2X.setText(String.valueOf(CAR2[0]));
-	        txtCarro2X.setEditable(true);
-	        txtCarro2Y.setText(String.valueOf(CAR2[1]));
-	        txtCarro2Y.setEditable(true);
-
-	        txtCarro3X.setText(String.valueOf(CAR3[0]));
-	        txtCarro3X.setEditable(true);
-	        txtCarro3Y.setText(String.valueOf(CAR3[1]));
-	        txtCarro3Y.setEditable(true);
-
-	        txtHuerto1X.setText(String.valueOf(HUERTO1[0]));
-	        txtHuerto1X.setEditable(true);
-	        txtHuerto1Y.setText(String.valueOf(HUERTO1[1]));
-	        txtHuerto1Y.setEditable(true);
-	        
-	        txtHuerto2X.setText(String.valueOf(HUERTO2[0]));
-	        txtHuerto2X.setEditable(true);
-	        txtHuerto2Y.setText(String.valueOf(HUERTO2[1]));
-	        txtHuerto2Y.setEditable(true);
-	        
-	        txtHuerto3X.setText(String.valueOf(HUERTO3[0]));
-	        txtHuerto3X.setEditable(true);
-	        txtHuerto3Y.setText(String.valueOf(HUERTO3[1]));
-	        txtHuerto3Y.setEditable(true);
-	        
-	        txtHuerto4X.setText(String.valueOf(HUERTO4[0]));
-	        txtHuerto4X.setEditable(true);
-	        txtHuerto4Y.setText(String.valueOf(HUERTO4[1]));
-	        txtHuerto4Y.setEditable(true);
-
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_CARS;j++)
+				{
+					actual=txtCars[i][j];
+					actual.setText(String.valueOf(CARROS_INICIALES[i][j]));
+					actual.setEditable(true);
+					
+				}
+			}
+			
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;j++)
+				{
+					actual=txtCrops[i][j];
+					actual.setText(String.valueOf(HUERTOS_INICIALES[i][j]));
+					actual.setEditable(true);
+				}
+			}
 	    }
 	    
 		/**
@@ -287,23 +273,26 @@ import javax.swing.border.TitledBorder;
 		 */
 
 		public void iniciar() {
-			txtCarro1X.setEditable(false);
-			txtCarro2X.setEditable(false);
-			txtCarro3X.setEditable(false);
+	    	JTextField actual=null;
+	    	
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_CARS;j++)
+				{
+					actual=txtCars[i][j];
+					actual.setEditable(false);
+					
+				}
+			}
 			
-			txtCarro1Y.setEditable(false);
-			txtCarro2Y.setEditable(false);
-			txtCarro3Y.setEditable(false);
-			
-			txtHuerto1X.setEditable(false);
-			txtHuerto2X.setEditable(false);
-			txtHuerto3X.setEditable(false);
-			txtHuerto4X.setEditable(false);
-			
-			txtHuerto1Y.setEditable(false);
-			txtHuerto2Y.setEditable(false);
-			txtHuerto3Y.setEditable(false);
-			txtHuerto4Y.setEditable(false);
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;j++)
+				{
+					actual=txtCrops[i][j];
+					actual.setEditable(false);
+				}
+			}
 		}
 		
 		
