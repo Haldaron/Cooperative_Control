@@ -174,9 +174,7 @@ import javax.swing.border.TitledBorder;
 	        
 	        txtHuerto4X = new JTextField();
 	        txtHuerto4Y = new JTextField();
-	        
-	        setDefault();
-	        
+	        	        
 	        //Instatiate the arrays containing the intitial positions for cars and crops
 	        cars=CARROS_INICIALES;
 	        crops=HUERTOS_INICIALES;
@@ -200,6 +198,9 @@ import javax.swing.border.TitledBorder;
 	        txtCrops[1][2]=txtHuerto3Y;
 	        txtCrops[0][3]=txtHuerto4X;
 	        txtCrops[1][3]=txtHuerto4Y;
+	        
+	        setDefault();
+
 
 	       
 	        pCarros.add(emptyC);
@@ -245,15 +246,13 @@ import javax.swing.border.TitledBorder;
 
 	    public void setDefault(){
 	    	JTextField actual=null;
-	    	
 			for(int i=0; i <NUM_COORD;i++)
 			{
 				for(int j =0; j<NUM_CARS;j++)
-				{
+				{;
 					actual=txtCars[i][j];
-					actual.setText(String.valueOf(CARROS_INICIALES[i][j]));
-					actual.setEditable(true);
-					
+					actual.setText(String.valueOf(CARROS_INICIALES[j][i]));
+					actual.setEditable(true);					
 				}
 			}
 			
@@ -262,7 +261,7 @@ import javax.swing.border.TitledBorder;
 				for(int j =0; j<NUM_HUERTOS;j++)
 				{
 					actual=txtCrops[i][j];
-					actual.setText(String.valueOf(HUERTOS_INICIALES[i][j]));
+					actual.setText(String.valueOf(HUERTOS_INICIALES[j][i]));
 					actual.setEditable(true);
 				}
 			}
@@ -295,8 +294,6 @@ import javax.swing.border.TitledBorder;
 			}
 		}
 		
-		
-		
 		public int[][] darCarrosIniciales() 
 		{
 			int[][] rta= new int[NUM_COORD][NUM_CARS];
@@ -322,10 +319,5 @@ import javax.swing.border.TitledBorder;
 			return rta;
 			
 		}
-		
-
-		
-		
-		
 	}
 
