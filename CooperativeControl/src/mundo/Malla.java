@@ -228,12 +228,14 @@ public class Malla {
 	public void optimizarCaminos()
 
 	{
-		OptimizacionCaminos oc =new OptimizacionCaminos(carros.get(0).posiblesCaminos,carros.get(1).posiblesCaminos,carros.get(2).posiblesCaminos);	
-
-		Integer[]	caminosAAsignar=oc.getIndexHuertosFinales();
-		carros.get(0).setCaminoEnSeguimiento(carros.get(0).getPosiblesCaminos()[caminosAAsignar[0]]);
-		carros.get(1).setCaminoEnSeguimiento(carros.get(1).getPosiblesCaminos()[caminosAAsignar[1]]);
-		carros.get(2).setCaminoEnSeguimiento(carros.get(2).getPosiblesCaminos()[caminosAAsignar[2]]);
+		OptimizacionCaminos oc =new OptimizacionCaminos(carros);	
+		ArrayList<Camino> caminosOptimizados=oc.darConjuntoCaminosOptimizado();
+		
+		for(int i=0;i<carros.size();i++)
+		{
+			carros.get(i).setCaminoEnSeguimiento(caminosOptimizados.get(i));
+		}
+		
 	}
 
 }

@@ -68,8 +68,8 @@ public class Carro {
 	/**
 	 * @param camiloEnSeguimiento the camiloEnSeguimiento to set
 	 */
-	public void setCaminoEnSeguimiento(int caminoEnSeguimiento) {
-		this.caminoEnSeguimiento = posiblesCaminos[caminoEnSeguimiento];
+	public void setCaminoEnSeguimiento(Camino caminoEnSeguimiento) {
+		this.caminoEnSeguimiento = caminoEnSeguimiento;
 	}
 
 	/**
