@@ -8,20 +8,25 @@ public class Malla {
 	//Constantes
 	//--------------------------------------------------------------------------
 
-	public static final int N=10;
+	private static final int N=10;
 
-	public final static int CAR1 = 1;
-	public final static int CAR2 = 2;
-	public final static int CAR3 = 3;
+	private final static int CAR1 = 1;
+	private final static int CAR2 = 2;
+	private final static int CAR3 = 3;
 
-	public final static int[] CARCODES={CAR1,CAR2,CAR3};
+	private final static int[] CARCODES={CAR1,CAR2,CAR3};
 
 	private static final int CROP1 = 1;
 	private static final int CROP2= 2;
 	private static final int CROP3 = 3;
 	private static final int CROP4= 4;
 
-	public final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
+	private final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
+	
+	private final static int HARVEST_TIME=30;
+	private final static int FRUIT_NUMBER=9;
+	
+	
 
 	//--------------------------------------------------------------------------
 	//Atributos
@@ -46,6 +51,8 @@ public class Malla {
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
 
 	private Grafo rGrafo;
+	
+	
 
 
 
@@ -73,7 +80,7 @@ public class Malla {
 
 		crearGrafo(malla);
 		asignarRutas();
-		optimizarCaminos();
+//		optimizarCaminos();
 
 	}
 
@@ -89,12 +96,22 @@ public class Malla {
 	 * <b>post: </b>se retornó el tiempo de recoleccion del los frutos del huerto. 
 	 * Número mayor a cero<br>
 	 * @return tiempo de recoleccion de los frutos.
+	 * @throws TamanosInvalidosInicializacionException 
 	 */
-	public void inicializarHuertos(int[][] iniciales)
+	public void inicializarHuertos(int[][] iniciales) throws TamanosInvalidosInicializacionException
 	{
-		huertos.set(0, new Huerto(iniciales[0][0],iniciales[0][1],iniciales[0][2],iniciales[0][3],CROPCODES[0]));
-		huertos.set(0, new Huerto(iniciales[1][0],iniciales[1][1],iniciales[1][2],iniciales[1][3],CROPCODES[1]));
-		huertos.set(0, new Huerto(iniciales[2][0],iniciales[2][1],iniciales[2][2],iniciales[2][3],CROPCODES[2]));
+		
+		if(iniciales[0].length==CROPCODES.length 
+				&& iniciales[1].length==CROPCODES.length )
+		{
+			for(int i =0; i<CROPCODES.length;i++)
+			{
+				huertos.add(new Huerto(CROPCODES[i],iniciales[0][i],iniciales[1][i], HARVEST_TIME , FRUIT_NUMBER ));
+			}		
+		}else
+		{
+			throw new TamanosInvalidosInicializacionException();
+		}
 	}
 
 	public void crearGrafo(Nodo[][] grid){
@@ -111,7 +128,7 @@ public class Malla {
 		{
 			for(int i =0; i<CARCODES.length;i++)
 			{
-				carros.set(i, new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
+				carros.add(new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
 			}		
 		}else
 		{

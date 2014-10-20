@@ -45,7 +45,7 @@ public class Huerto extends Nodo{
      * @param pCodigo Identificador del huerto <br>
 	 */
 	
-	public Huerto(int pX, int pY, int pTiempoRecoleccion, int pNumFrutos, int pCodigo)
+	public Huerto(int pCodigo,int pX, int pY, int pTiempoRecoleccion, int pNumFrutos)
 	{
 		super(pX, pY);
 		

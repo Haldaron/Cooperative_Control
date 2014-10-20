@@ -1,27 +1,22 @@
-	/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	 * $Id$ 
-	 * Universidad de los Andes (Bogot� - Colombia)
-	 * Departamento de Ingenier�a de Sistemas y Computaci�n 
-	 * Licenciado bajo el esquema Academic Free License version 2.1 
-	 *
-	 * Proyecto Cupi2 
-	 * Ejercicio: n6_buscaminas 
-	 * Autor: Mario S�nchez - 15/07/2005 
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-	 */
+package interfaz;
+import mundo.*;
 
-	package interfaz;
-	import mundo.*;
-	import java.awt.GridLayout;
-	import java.awt.Insets;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-	import javax.swing.ImageIcon;
-	import javax.swing.JButton;
-	import javax.swing.JLabel;
-	import javax.swing.JPanel;
-	import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+	
+	
 
 	/**
 	 * Es el panel donde se muestran los botones para jugar y los botones con las opciones de extensi�n.
@@ -32,7 +27,22 @@
 	    // -----------------------------------------------------------------
 	    // Constantes
 	    // -----------------------------------------------------------------
-
+		private final static int[] CAR1={0,0};
+		private final static int[] CAR2={0,1};
+		private final static int[] CAR3={0,2};
+		
+    	private final static int[][] CARROS_INICIALES={CAR1,CAR2,CAR3};
+    	
+		private final static int[] HUERTO1={5,7};
+		private final static int[] HUERTO2={6,7};
+		private final static int[] HUERTO3={1,9};
+		private final static int[] HUERTO4={1,8};
+    	
+    	private final static int[][] HUERTOS_INICIALES={HUERTO1,HUERTO2,HUERTO3,HUERTO4};
+    	
+    	private final static int NUM_COORD=2;
+    	private final static int NUM_CARS=3;
+    	private final static int NUM_HUERTOS=4;
 
 	    // -----------------------------------------------------------------
 	    // Atributos
@@ -49,10 +59,11 @@
 
 
 	    /**
-	     * Es el bot�n para (re)iniciar el campo minado
+	     * Es el boton para (re)iniciar el campo minado
 	     */
 	    
 	    private JLabel		lblCarro1;
+
 	    private JTextField 	txtCarro1X;
 	    private JTextField 	txtCarro1Y;
 	    
@@ -64,13 +75,35 @@
 	    private JTextField 	txtCarro3X;
 	    private JTextField 	txtCarro3Y;
 	    
-	    private JLabel		lblDestino;
-	    private JLabel		lblX;
-	    private JLabel		lblY;
-	    private JTextField 	txtCarro1Destino;
-	    private JTextField 	txtCarro2Destino;
-	    private JTextField 	txtCarro3Destino;
-
+	    private JLabel		lblXC;
+	    private JLabel		lblYC;
+	    private JLabel 		emptyC;
+	    
+	    private JLabel		lblXH;
+	    private JLabel		lblYH;
+	    private JLabel 		emptyH;
+	    
+	    private JLabel		lblHuerto1;
+	    private JTextField 	txtHuerto1X;
+	    private JTextField 	txtHuerto1Y;
+	    
+	    private JLabel		lblHuerto2;
+	    private JTextField 	txtHuerto2X;
+	    private JTextField 	txtHuerto2Y;
+	    
+	    private JLabel		lblHuerto3;
+	    private JTextField 	txtHuerto3X;
+	    private JTextField 	txtHuerto3Y;
+	    
+	    private JLabel		lblHuerto4;
+	    private JTextField 	txtHuerto4X;
+	    private JTextField 	txtHuerto4Y;
+	    
+	    private int[][] cars;
+	    private int[][] crops;
+	    
+	    private JTextField[][] txtCars;
+	    private JTextField[][] txtCrops;
 
 
 	    // -----------------------------------------------------------------
@@ -83,73 +116,208 @@
 	     */
 	    public PanelInformacion( Interfaz ib )
 	    {
-	        ventanaPrincipal = ib;
-	        setLayout(new GridLayout(5,4));
-
-	        //Inicializando labels
+	    	//Instanciar ventana principal con el parámetro ib
+	    	ventanaPrincipal = ib;
+	    	
+	    	//Set Auxiliar Panels And Layouts
+	        setLayout(new BorderLayout());
 	        
-	        lblDestino = new JLabel("Destino");
-	        lblX= new JLabel("X");
-	        lblY= new JLabel("Y");
+	        JPanel pCarros= new JPanel();
+	        pCarros.setLayout(new GridLayout(4,3));
+	        pCarros.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Carros" ) ) );
+
+
+	        JPanel pHuertos= new JPanel();
+	        pHuertos.setLayout(new GridLayout(5,3));
+	        pHuertos.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Huertos" ) ) );
+	    	
+	    	
+	        //Instanciar Labels y TextFields del panel
+	        lblXC= new JLabel("X");
+	        lblYC= new JLabel("Y");
+	        emptyC= new JLabel("");
+	        
+	        lblXH= new JLabel("X");
+	        lblYH= new JLabel("Y");
+	        emptyH= new JLabel("");
 	        
 	        lblCarro1= new JLabel("Carro 1");
 	        lblCarro2= new JLabel("Carro 2");
 	        lblCarro3= new JLabel("Carro 3");
 	        
-	        //Inicializando textos
+	        lblHuerto1 = new JLabel("Huerto 1");
+	        lblHuerto2 = new JLabel("Huerto 2");
+	        lblHuerto3 = new JLabel("Huerto 3");
+	        lblHuerto4 = new JLabel("Huerto 4");
+	       
+	        txtCars= new JTextField[NUM_COORD][NUM_CARS];
+	        txtCrops=new JTextField[NUM_COORD][NUM_HUERTOS];
 	        
-	        txtCarro1X = new JTextField();
-	        txtCarro2X = new JTextField();
-	        txtCarro3X = new JTextField();
-	        txtCarro1X.setEditable(false);
-	        txtCarro2X.setEditable(false);
-	        txtCarro3X.setEditable(false);
-	        
-	        
+	        //Set the Default Crops and Cars initial positions 
+	    	txtCarro1X = new JTextField();
 	        txtCarro1Y = new JTextField();
+
+	        txtCarro2X = new JTextField();
 	        txtCarro2Y = new JTextField();
+
+	        txtCarro3X = new JTextField();
 	        txtCarro3Y = new JTextField();
-	        txtCarro1Y.setEditable(false);
-	        txtCarro2Y.setEditable(false);
-	        txtCarro3Y.setEditable(false);
+
+	        txtHuerto1X = new JTextField();
+	        txtHuerto1Y = new JTextField();
 	        
-	        txtCarro1Destino = new JTextField();
-	        txtCarro2Destino = new JTextField();
-	        txtCarro3Destino = new JTextField();
-	        txtCarro1Destino.setEditable(false);
-	        txtCarro2Destino.setEditable(false);
-	        txtCarro3Destino.setEditable(false);
+	        txtHuerto2X = new JTextField();
+	        txtHuerto2Y = new JTextField();
 	        
-	        //add to Layout
+	        txtHuerto3X = new JTextField();
+	        txtHuerto3Y = new JTextField();
 	        
-	        add(new JLabel(""));
-	        add(lblX);
-	        add(lblY);
-	        add(lblDestino);
+	        txtHuerto4X = new JTextField();
+	        txtHuerto4Y = new JTextField();
+	        	        
+	        //Instatiate the arrays containing the intitial positions for cars and crops
+	        cars=CARROS_INICIALES;
+	        crops=HUERTOS_INICIALES;
 	        
-	        add(lblCarro1);
-	        add(txtCarro1X);
-	        add(txtCarro1Y);
-	        add(txtCarro1Destino);
 	        
-	        add(lblCarro2);
-	        add(txtCarro2X);
-	        add(txtCarro2Y);
-	        add(txtCarro2Destino);
+	        //Añadir JTextFields asociados a los carros al arreglo destinado para contenerlos
+	        txtCars[0][0]=txtCarro1X;
+	        txtCars[1][0]=txtCarro1Y;
+	        txtCars[0][1]=txtCarro2X;
+	        txtCars[1][1]=txtCarro2Y;
+	        txtCars[0][2]=txtCarro3X;
+	        txtCars[1][2]=txtCarro3Y;
 	        
-	        add(lblCarro3);
-	        add(txtCarro3X);
-	        add(txtCarro3Y);
-	        add(txtCarro3Destino);
+	        //Añadir JTextFields asociados a los huertos al arreglo destinado para contenerlos
+	        
+	        txtCrops[0][0]=txtHuerto1X;
+	        txtCrops[1][0]=txtHuerto1Y;
+	        txtCrops[0][1]=txtHuerto2X;
+	        txtCrops[1][1]=txtHuerto2Y;
+	        txtCrops[0][2]=txtHuerto3X;
+	        txtCrops[1][2]=txtHuerto3Y;
+	        txtCrops[0][3]=txtHuerto4X;
+	        txtCrops[1][3]=txtHuerto4Y;
+	        
+	        setDefault();
+
+
+	       
+	        pCarros.add(emptyC);
+	        pCarros.add(lblXC);
+	        pCarros.add(lblYC);
+	        
+	        pCarros.add(lblCarro1);
+	        pCarros.add(txtCarro1X);
+	        pCarros.add(txtCarro1Y);
+	        
+	        pCarros.add(lblCarro2);
+	        pCarros.add(txtCarro2X);
+	        pCarros.add(txtCarro2Y);
+	        
+	        pCarros.add(lblCarro3);
+	        pCarros.add(txtCarro3X);
+	        pCarros.add(txtCarro3Y);
+	        
+	        pHuertos.add(emptyH);
+	        pHuertos.add(lblXH);
+	        pHuertos.add(lblYH);
+	        
+	        pHuertos.add(lblHuerto1);
+	        pHuertos.add(txtHuerto1X);
+	        pHuertos.add(txtHuerto1Y);
+	        
+	        pHuertos.add(lblHuerto2);
+	        pHuertos.add(txtHuerto2X);
+	        pHuertos.add(txtHuerto2Y);
+	        
+	        pHuertos.add(lblHuerto3);
+	        pHuertos.add(txtHuerto3X);
+	        pHuertos.add(txtHuerto3Y);
+	        
+	        pHuertos.add(lblHuerto4);
+	        pHuertos.add(txtHuerto4X);
+	        pHuertos.add(txtHuerto4Y);
+	        
+	        add(pCarros , BorderLayout.WEST);
+	        add(pHuertos, BorderLayout.EAST);
+	        
 	    }
 
+	    public void setDefault(){
+	    	JTextField actual=null;
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_CARS;j++)
+				{;
+					actual=txtCars[i][j];
+					actual.setText(String.valueOf(CARROS_INICIALES[j][i]));
+					actual.setEditable(true);					
+				}
+			}
+			
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;j++)
+				{
+					actual=txtCrops[i][j];
+					actual.setText(String.valueOf(HUERTOS_INICIALES[j][i]));
+					actual.setEditable(true);
+				}
+			}
+	    }
+	    
+		/**
+		 * Método que interpone como no editable los campos de texto del panel de infomación.
+		 */
 
-
-		public void actualizar(Malla malla) {
-						
-			 txtCarro1X.setText(malla);
-		     txtCarro2X.setText(false);
-		     txtCarro3X.setText(false);
+		public void iniciar() {
+	    	JTextField actual=null;
+	    	
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_CARS;j++)
+				{
+					actual=txtCars[i][j];
+					actual.setEditable(false);
+					
+				}
+			}
+			
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;j++)
+				{
+					actual=txtCrops[i][j];
+					actual.setEditable(false);
+				}
+			}
+		}
+		
+		public int[][] darCarrosIniciales() 
+		{
+			int[][] rta= new int[NUM_COORD][NUM_CARS];
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_CARS;j++)
+				{
+					rta[i][j]=Integer.parseInt(txtCars[i][j].getText());
+				}
+			}
+			return rta;
+		}
+		
+		public int [][] darHuertosIniciales(){
+			int[][] rta= new int[NUM_COORD][NUM_HUERTOS];
+			for(int i=0; i <NUM_COORD;i++)
+			{
+				for(int j =0; j<NUM_HUERTOS;j++)
+				{
+					rta[i][j]=Integer.parseInt(txtCrops[i][j].getText());
+				}
+			}
+			return rta;
+			
 		}
 	}
 

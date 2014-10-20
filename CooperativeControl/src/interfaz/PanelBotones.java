@@ -17,7 +17,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-	import javax.swing.ImageIcon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 
 	    private static final String BOTON_STEP = "Step";
 
-	    private static final String BOTON_INGRESAR= "Ingresar";
+	    private static final String BOTON_EDITAR= "Editar";
 
 	    // -----------------------------------------------------------------
 	    // Atributos
@@ -88,16 +88,16 @@ import javax.swing.JPanel;
 	        botonStep = new JButton("Step");
 	        botonStep.setMargin( new Insets( 1, 1, 1, 1 ) );
 	        botonStep.setActionCommand( BOTON_STEP );
-	        botonStep.setToolTipText( "mover los autos" );
+	        botonStep.setToolTipText( "Mover los autos" );
 	        botonStep.addActionListener( this );
 	        add( botonStep );
 	        
 	     // inicializa el botonIniciar con la imagen y los valores predeterminados
-	        botonIngresar = new JButton("Ingresar Posiciones");
+	        botonIngresar = new JButton("Editar");
 
 	        botonIngresar.setMargin( new Insets( 1, 1, 1, 1 ) );
-	        botonIngresar.setActionCommand( BOTON_INGRESAR );
-	        botonIngresar.setToolTipText( "Ingresar" );
+	        botonIngresar.setActionCommand( BOTON_EDITAR );
+	        botonIngresar.setToolTipText( "Editar" );
 	        botonIngresar.addActionListener( this );
 	        add( botonIngresar );
 	    }
@@ -116,15 +116,15 @@ import javax.swing.JPanel;
 
 	        if( BOTON_INICIAR.equals( comando ) )
 	        {
-	            ventanaPrincipal.reiniciar( );
+	            ventanaPrincipal.iniciar( );
 	        }
 	        else if( BOTON_STEP.equals( comando ) )
 	        {
 	            ventanaPrincipal.avanzar();
 	        }
-	        else if( BOTON_INGRESAR.equals( comando ) )
+	        else if( BOTON_EDITAR.equals( comando ) )
 	        {
-	            ventanaPrincipal.ingresarPosiciones();
+	            ventanaPrincipal.editar();
 	        }
 	       
 	    }
