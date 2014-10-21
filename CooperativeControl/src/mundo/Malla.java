@@ -87,7 +87,7 @@ public class Malla {
 		
 		asignarRutas();
 		optimizarCaminos();
-
+		System.out.println("Termino de iniciar");
 	}
 
 
@@ -204,7 +204,10 @@ public class Malla {
 	public Camino construirCamino(FindPath fp, int codObjetivo){
 		if(!fp.hayCamino(codObjetivo)){
 			System.out.println("No hay camino");
+		}else{
+			System.out.println("Si hay camino");
 		}
+		
 		Iterable<Integer> stackCamino= fp.caminoA(codObjetivo);
 		Iterator<Integer> it= stackCamino.iterator();
 		
@@ -219,7 +222,7 @@ public class Malla {
 			sig=it.next();
 			x=sig%N;
 			y=(sig-x)/N;
-			aIngresar=malla[x][y];
+			aIngresar=malla[y][x];
 			cRta.anadirNodoAlfinal(aIngresar);
 
 		}
@@ -234,9 +237,12 @@ public class Malla {
 	 */
 	public void asignarPosiblesCaminos(Carro c,ArrayList<Nodo> objs){
 		FindPath fpActual= bfsCarroi(c);
-		for(Nodo n : objs)
+		int i; 
+		Nodo n;
+		for(i=0; i<objs.size(); i++)
 		{
-			construirCamino(fpActual, n.getPosY()*N+n.getPosX());
+			n=objs.get(i);
+			c.setCaminoI(i,construirCamino(fpActual, n.getPosY()*N+n.getPosX()));
 		}
 	}
 
