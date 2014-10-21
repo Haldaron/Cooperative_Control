@@ -84,6 +84,7 @@ public class Malla {
 		inicializarMalla();
 
 		crearGrafo(malla);
+		
 		asignarRutas();
 		optimizarCaminos();
 
@@ -201,8 +202,12 @@ public class Malla {
 	 * @return
 	 */
 	public Camino construirCamino(FindPath fp, int codObjetivo){
+		if(!fp.hayCamino(codObjetivo)){
+			System.out.println("No hay camino");
+		}
 		Iterable<Integer> stackCamino= fp.caminoA(codObjetivo);
 		Iterator<Integer> it= stackCamino.iterator();
+		
 		Camino cRta= new Camino(codObjetivo);
 
 		int x=0;

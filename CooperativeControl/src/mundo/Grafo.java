@@ -6,7 +6,7 @@ public class Grafo {
 	
 	public int V;
 	public int E;
-	public ArrayList[] adjuntos;  
+	public ArrayList<Integer>[] adjuntos;  
 	private Nodo[][] malla;
 	
 	
@@ -19,64 +19,34 @@ public class Grafo {
 		
 		malla=grid;
 		int N=malla[0].length;
-		V=(int)Math.pow(malla[0].length, 2);
+		V=(int)Math.pow(N, 2);
 		adjuntos= new ArrayList[V];
 		
-		
-		
-		  for (int i = 0; i < V; i++) {
-	            adjuntos[i] = new ArrayList<Integer>();
+		int i,j,k,l,m;
+		Nodo n;
+		  for (k = 0; k < V; k++) {
+	            adjuntos[k] = new ArrayList<Integer>();
+	            j=k%N;
+	            i=(k-j)/N;
+	            for(l=i-1;l<=i+1;l++){
+	            	for(m=j-1;m<=j+1;m++){
+	            		if(m!=j || l!=i){
+	            			try{
+	            				n=malla[l][m];
+	            				adjuntos[k].add(l*N+m);
+	            			}catch(IndexOutOfBoundsException e){
+	            				
+	            			}
+	            		}
+	            	}
+	            }
+	            
+	            
+	            
 	        }
 		
-		for(int i=0 ; i<malla[0].length ; i++){
-			for(int j=0; j<malla[0].length;j++){
-				ArrayList adjAct= adjuntos[N*i+j];
-				boolean ir1=i-1>=0;
-				boolean is1=i+1<N-1;
-				boolean jr1=j-1>=0;
-				boolean js1=j+1<N-1;
-				
-				if(ir1){
-					if(jr1){
-						adjAct.add(N*(i-1)+j-1);
-						E++;
-					}
-					
-					adjAct.add(N*(i-1)+j);
-					E++;
-					
-					if(js1){
-						adjAct.add(N*(i-1)+j+1);
-						E++;
-					}
-				}
-				if(js1){
-					adjAct.add(N*i+j+1);
-					E++;
-					if(i+1<N-1){
-						adjAct.add(N*(i+1)+j+1);
-						E++;
-					}
-				}
-				
-				if(is1){
-					
-					adjAct.add(N*(i+1)+j);
-					E++;
-					if(jr1){
-						adjAct.add(N*(i+1)+j-1);
-						E++;
-					}
-				}
-				
-				if(jr1){
-					adjAct.add(N*(i)+j-1);
-					E++;
-				}
-				
-			}
+	
 			
-		}
 	}
 
 
@@ -107,12 +77,12 @@ public class Grafo {
 	}
 
 
-	public ArrayList[] getAdjuntos() {
+	public ArrayList<Integer>[] getAdjuntos() {
 		return adjuntos;
 	}
 
 
-	public void setAdjuntos(ArrayList[] adjuntos) {
+	public void setAdjuntos(ArrayList<Integer>[] adjuntos) {
 		this.adjuntos = adjuntos;
 	}
 	
