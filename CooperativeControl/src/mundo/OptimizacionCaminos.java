@@ -11,7 +11,7 @@ public class OptimizacionCaminos {
 	
 	/**
 	 * Cosntructor de la clase
-	 * @param pCarros Carros con sus atributos en el momento de la cración del objeto
+	 * @param pCarros Carros con sus atributos en el momento de la craciï¿½n del objeto
 	 */
 	public OptimizacionCaminos(ArrayList<Carro> pCarros)
 	{
@@ -21,30 +21,33 @@ public class OptimizacionCaminos {
 		conjuntoCaminos= new ArrayList<Camino[]>();
 		for(int i=0;i<carros.size();i++)
 		{
+			Camino c1= carros.get(i).getPosiblesCaminos()[i];
+			
+
 			conjuntoCaminos.add(( carros.get(i)).getPosiblesCaminos());
 		}
 		optimizarCaminos();
 	}
 	
 	
-	public ArrayList darConjuntoCaminosOptimizado()
+	public ArrayList<Camino> darConjuntoCaminosOptimizado()
 	{
 		return conjuntoCaminosOptimizados;
 	}
 	
 	
 	/**
-	 * Método principal encargado de la optimización de los caminos escogidos para cada vehículo. 
+	 * Mï¿½todo principal encargado de la optimizaciï¿½n de los caminos escogidos para cada vehï¿½culo. 
 	 */
 	private void optimizarCaminos()
 	{
-		ArrayList<Integer> disponibles = new ArrayList<Integer>(); //metas disónibles
+		ArrayList<Integer> disponibles = new ArrayList<Integer>(); //metas disï¿½nibles
 		ArrayList<Integer> asignados = new ArrayList<Integer>();  //metas asignadas
 	
 		//Asignando camino a bodega para los autos cargados, se elimina el camino a bodega de todos los autos
 		asignarABodega();
 		
-		//Valor base para la función a optimizar
+		//Valor base para la funciï¿½n a optimizar
 		minCost=0;	
 		for(int i=0;i<conjuntoCaminos.size();i++)
 		{
@@ -57,12 +60,12 @@ public class OptimizacionCaminos {
 			disponibles.add(i);
 		}
 		
-		//Hallando asignación de caminos óptima
+		//Hallando asignaciï¿½n de caminos ï¿½ptima
 		asignados = asignarCaminos(disponibles,asignados);
 		
 		//carros que se han asignado a bodega
 		int carrosABodega=0;
-		//Asignando el camino escogido a cada vehículo
+		//Asignando el camino escogido a cada vehï¿½culo
 		for(int i=0;i<asignados.size();i++)
 		{
 			
@@ -79,7 +82,7 @@ public class OptimizacionCaminos {
 	}
 	
 	/**
-	 * Método que revisa si cada carro está cargado. De estarlo, se le asigna camino a bodega. Además se elimina el camino a bodega 
+	 * Mï¿½todo que revisa si cada carro estï¿½ cargado. De estarlo, se le asigna camino a bodega. Ademï¿½s se elimina el camino a bodega 
 	 * de los caminos posibles a todos los autos
 	 */
 	public void asignarABodega()
@@ -89,7 +92,7 @@ public class OptimizacionCaminos {
 			if(!carros.get(i).getCargado())
 			{
 				
-				//Creando nuevo Camino[] eliminando el camino a bodega (que está en la última posición)
+				//Creando nuevo Camino[] eliminando el camino a bodega (que estï¿½ en la ï¿½ltima posiciï¿½n)
 				Camino[] nuevo = new Camino[conjuntoCaminos.get(i).length-1];
 				for(int j=0;j<conjuntoCaminos.get(0).length-1;j++)
 				{

@@ -1,7 +1,10 @@
 package mundo;
 
+
+
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observer;
 
 public class Malla {
 	//--------------------------------------------------------------------------
@@ -25,6 +28,7 @@ public class Malla {
 	
 	private final static int HARVEST_TIME=30;
 	private final static int FRUIT_NUMBER=9;
+	
 	
 	
 
@@ -52,6 +56,7 @@ public class Malla {
 
 	private Grafo rGrafo;
 	
+	private Observer panelVisualizacion;
 	
 
 
@@ -68,19 +73,19 @@ public class Malla {
 	 * @param pY Posición en Y del huerto <br>
 	 */
 
-	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos) throws TamanosInvalidosInicializacionException
+	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos, Observer panObserver) throws TamanosInvalidosInicializacionException
 	{
 		carros = new ArrayList<Carro>();
 		huertos = new ArrayList<Nodo>();
 		malla= new Nodo[N][N];
-
+		panelVisualizacion=panObserver;
 		inicializarCarros(inicialesCarros, angulosCarros);
 		inicializarHuertos(inicialesHuertos);
 		inicializarMalla();
 
 		crearGrafo(malla);
 		asignarRutas();
-//		optimizarCaminos();
+		optimizarCaminos();
 
 	}
 
@@ -120,6 +125,7 @@ public class Malla {
 
 	}
 
+
 	public void inicializarCarros(int[][] inicialesC, Double[] angulos) throws TamanosInvalidosInicializacionException
 	{	
 		if(inicialesC[0].length==CARCODES.length 
@@ -128,7 +134,8 @@ public class Malla {
 		{
 			for(int i =0; i<CARCODES.length;i++)
 			{
-				carros.add(new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
+				carros.add( new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
+				
 			}		
 		}else
 		{
@@ -141,6 +148,7 @@ public class Malla {
 		Huerto huerto0=(Huerto) huertos.get(0);
 		Huerto huerto1=(Huerto) huertos.get(1);
 		Huerto huerto2=(Huerto) huertos.get(2);
+		Huerto huerto3=(Huerto) huertos.get(3);
 
 		for(int i=0;i<N;i++)
 		{
@@ -149,13 +157,15 @@ public class Malla {
 				boolean h0 = (huerto0.getPosX()==j && huerto0.getPosY()==i);
 				boolean h1 = (huerto1.getPosX()==j && huerto1.getPosY()==i);
 				boolean h2 = (huerto2.getPosX()==j && huerto2.getPosY()==i);
-
+				boolean h3 = (huerto3.getPosX()==j && huerto3.getPosY()==i);
 				if(h0)
 					malla[i][j] =huerto0 ;
 				else if(h1)
 					malla[i][j]=huerto1;
 				else if(h2)
 					malla[i][j]=huerto2;
+				else if(h3)
+					malla[i][j]=huerto3;
 				else
 					malla[i][j]= new Nodo(j,i);
 			}
@@ -228,6 +238,7 @@ public class Malla {
 	public void optimizarCaminos()
 
 	{
+		
 		OptimizacionCaminos oc =new OptimizacionCaminos(carros);	
 		ArrayList<Camino> caminosOptimizados=oc.darConjuntoCaminosOptimizado();
 		
@@ -237,6 +248,31 @@ public class Malla {
 		}
 		
 	}
+	
+
+	/**
+	 * @return the carros
+	 */
+	public ArrayList<Carro> getCarros() {
+		return carros;
+	}
+
+
+	public void addObserver() {
+		for(Carro c: carros){
+			c.addObserver(panelVisualizacion);
+		}
+	}
+
+
+	public void avanzar() {
+		for(Carro c: carros){
+			c.actualizarPosicion(c.getPosX()+1, c.getPosY()+1, 0);
+		}
+		
+	}
+
+
 
 }
 

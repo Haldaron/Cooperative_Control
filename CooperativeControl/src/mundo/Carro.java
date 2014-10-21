@@ -1,6 +1,9 @@
 package mundo;
 
-public class Carro {
+import java.util.Observable;
+
+
+public class Carro extends Observable{
 	
 	public final static int CAPACIDAD=9;
 	
@@ -14,10 +17,15 @@ public class Carro {
 	public int carga;
 	public boolean cargado;
 	
+	
 	public Carro(int cod, int posXinicial, int posYinicial, double angInicial){
 		codigo=cod;
-		posX=posXinicial;
-		posY=posYinicial;
+		posX=0;
+		posY=0;
+		
+		actualizarPosicion(posXinicial, posXinicial, angInicial);
+		
+		
 		caminoEnSeguimiento =null;
 		posiblesCaminos=new Camino[4];
 		angulo=angInicial;
@@ -32,9 +40,14 @@ public class Carro {
 	
 
 	public void actualizarPosicion(int x, int y , double angulo){
+
+		
 		setAngulo(angulo);
 		setPosX(x);
 		setPosY(y);
+		setChanged();
+		notifyObservers(codigo);
+
 	}	
 	
 	///Getters And Setters

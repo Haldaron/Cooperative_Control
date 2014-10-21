@@ -2,17 +2,15 @@
 	package interfaz;
 
 	import java.awt.BorderLayout;
-	import java.io.File;
-
 	import javax.swing.JFrame;
 	import javax.swing.JOptionPane;
-
 	import mundo.Malla;
 	import mundo.TamanosInvalidosInicializacionException;
 
 	/**
 	 * Esta es la clase principal de la interfaz del buscaminas
 	 */
+	@SuppressWarnings("serial")
 	public class Interfaz extends JFrame
 	{
 
@@ -20,7 +18,26 @@
 	    // Atributos
 	    // -----------------------------------------------------------------
 
+		public final static int[] CAR1={0,0};
+		public final static int[] CAR2={0,1};
+		public final static int[] CAR3={0,2};
+		
+    	public final static int[][] CARROS_INICIALES={CAR1,CAR2,CAR3};
+    	
+    	
+    	public final static int[] HUERTO1={5,7};
+    	public final static int[] HUERTO2={6,7};
+    	public final static int[] HUERTO3={1,9};
+    	public final static int[] HUERTO4={1,8};
 
+    	public final static int[][] HUERTOS_INICIALES={HUERTO1,HUERTO2,HUERTO3,HUERTO4};
+
+    	public final static int NUM_HUERTOS=4;
+    	public final static int NUM_COORD=2;
+    	public final static int NUM_CARS=3;
+    	public static final int NUM_DESTINOS =3 ;
+
+		
 	    /**
 	     * Es el campo minado sobre el que se est� jugando.
 	     */
@@ -32,6 +49,8 @@
 	    private PanelBotones panelBotones;
 	    
 	    private PanelInformacion panelInformacion;
+	    
+	    private PanelVisualizacion panelVisualizacion;
 
 
 	    // -----------------------------------------------------------------
@@ -43,23 +62,21 @@
 	     */
 	    public Interfaz( )
 	    {
+	    	malla=null;
 	    	
-	    	
-	    	int[][] carrosIniciales={{0,0},{0,1},{0,2}};
-	    	Double[] angulosIniciales={0.0,0.0,0.0};
-	    	int[][] huertosIniciales={{5,7},{3,3},{1,9}};
-
 	        setTitle( "VARA" );
 	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	        setResizable( false );
-	        setSize( 400, 170 );
+	        setSize( 420, 350);
 
 	        panelBotones = new PanelBotones(this );
-	        panelInformacion= new PanelInformacion(this);
-	        
+	        panelInformacion= new PanelInformacion();
+	        panelVisualizacion= new PanelVisualizacion();
 	        
 	        getContentPane( ).add( panelBotones, BorderLayout.SOUTH );
 	        getContentPane( ).add( panelInformacion, BorderLayout.NORTH );
+	        getContentPane( ).add( panelVisualizacion, BorderLayout.CENTER );
+
 	        
 	        setLocationRelativeTo(null);
 	    }
@@ -108,13 +125,20 @@
 
 		public void avanzar()
 		{
-			// TODO Auto-generated method stub
 			
+			if(malla!=null){
+				malla.avanzar();
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "El mundo aun no ha sido inicializado\nIngrese valores iniciales validos y oprima iniciar", "Error"
+						, JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		
 		public void editar( )
 	    {
 	    	panelInformacion.setDefault();
+	    	malla=null;
 	    }
 		
 		public void iniciar(){
@@ -126,7 +150,10 @@
 
 			try
 	        {
-	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales);	
+	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales,panelVisualizacion);
+	           panelVisualizacion.inicializarObservables(malla.getCarros());
+	           malla.addObserver();
+	           
 	        }
 	        catch(TamanosInvalidosInicializacionException e)
 	        {
@@ -136,6 +163,7 @@
 
 			
 		}
+
 		
 	}
 
