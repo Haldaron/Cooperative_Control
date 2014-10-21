@@ -138,15 +138,19 @@
 		public void editar( )
 	    {
 	    	panelInformacion.setDefault();
+	    	panelVisualizacion.setDefault();
 	    	malla=null;
 	    }
 		
 		public void iniciar(){
-			panelInformacion.iniciar();
+			
 			
 	    	Double[] angulosIniciales={0.0,0.0,0.0};
 			int carrosIniciales[][]=panelInformacion.darCarrosIniciales();
 			int huertosIniciales[][]= panelInformacion.darHuertosIniciales();
+			
+			panelInformacion.iniciar();
+			panelVisualizacion.setValues(carrosIniciales);
 
 			try
 	        {

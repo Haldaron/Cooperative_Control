@@ -101,7 +101,8 @@ public class PanelVisualizacion extends JPanel implements Observer {
 	    }
 	    
 	    
-	    public void setDefault(){
+	    public void setDefault()
+	    {
 	    	JLabel actual=null;
 			for(int i=0; i <Interfaz.NUM_COORD;i++)
 			{
@@ -111,8 +112,21 @@ public class PanelVisualizacion extends JPanel implements Observer {
 					actual.setText(String.valueOf(-1));
 				}
 			}
-			
-			
+	    }
+	    
+	    public void setValues(int[][] carPos)
+	    {
+	    	JLabel actual=null;
+
+			for(int i=0; i <Interfaz.NUM_COORD;i++)
+			{
+				for(int j =0; j<Interfaz.NUM_CARS;j++)
+				{
+					actual=txtCars[i][j];
+					actual.setText(String.valueOf(carPos[i][j]));
+				}
+			}
+	    	
 	    }
 
 

@@ -25,12 +25,12 @@ public class Malla {
 	private static final int CROP4= 4;
 
 	private final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
-	
+
 	private final static int HARVEST_TIME=30;
 	private final static int FRUIT_NUMBER=9;
-	
-	
-	
+
+
+
 
 	//--------------------------------------------------------------------------
 	//Atributos
@@ -55,9 +55,9 @@ public class Malla {
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
 
 	private Grafo rGrafo;
-	
+
 	private Observer panelVisualizacion;
-	
+
 
 
 
@@ -84,7 +84,7 @@ public class Malla {
 		inicializarMalla();
 
 		crearGrafo(malla);
-		
+
 		asignarRutas();
 		optimizarCaminos();
 		System.out.println("Termino de iniciar");
@@ -106,7 +106,7 @@ public class Malla {
 	 */
 	public void inicializarHuertos(int[][] iniciales) throws TamanosInvalidosInicializacionException
 	{
-		
+
 		if(iniciales[0].length==CROPCODES.length 
 				&& iniciales[1].length==CROPCODES.length )
 		{
@@ -136,7 +136,7 @@ public class Malla {
 			for(int i =0; i<CARCODES.length;i++)
 			{
 				carros.add( new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
-				
+
 			}		
 		}else
 		{
@@ -177,10 +177,10 @@ public class Malla {
 		for (Carro car :carros) 
 		{
 			asignarPosiblesCaminos(car, huertos);
-			
+
 		}
 	}
-	
+
 
 	//Métodos de cálculo y optimización de caminos.	
 
@@ -201,32 +201,33 @@ public class Malla {
 	 * @param codObjetivo Codigo del nodo al cual se dirige el carro
 	 * @return
 	 */
-	public Camino construirCamino(FindPath fp, int codObjetivo){
-		if(!fp.hayCamino(codObjetivo)){
-			System.out.println("No hay camino");
+	public Camino construirCamino(FindPath fp, int codObjetivo)
+	{
+		Camino cRta=null;
+
+		if(fp.hayCamino(codObjetivo)){
+
+			Iterable<Integer> stackCamino= fp.caminoA(codObjetivo);
+			Iterator<Integer> it= stackCamino.iterator();
+
+			cRta= new Camino(codObjetivo);
+
+			int x=0;
+			int y=0;
+			int sig=0;
+			Nodo aIngresar=null;
+			while(it.hasNext())
+			{
+				sig=it.next();
+				x=sig%N;
+				y=(sig-x)/N;
+				aIngresar=malla[y][x];
+				cRta.anadirNodoAlfinal(aIngresar);
+
+			}
 		}else{
-			System.out.println("Si hay camino");
+			System.out.println("No hay Camino al objetivo con cod:"+codObjetivo);
 		}
-		
-		Iterable<Integer> stackCamino= fp.caminoA(codObjetivo);
-		Iterator<Integer> it= stackCamino.iterator();
-		
-		Camino cRta= new Camino(codObjetivo);
-
-		int x=0;
-		int y=0;
-		int sig=0;
-		Nodo aIngresar=null;
-		while(it.hasNext())
-		{
-			sig=it.next();
-			x=sig%N;
-			y=(sig-x)/N;
-			aIngresar=malla[y][x];
-			cRta.anadirNodoAlfinal(aIngresar);
-
-		}
-
 		return cRta;
 	}
 
@@ -249,17 +250,17 @@ public class Malla {
 	public void optimizarCaminos()
 
 	{
-		
+
 		OptimizacionCaminos oc =new OptimizacionCaminos(carros);	
 		ArrayList<Camino> caminosOptimizados=oc.darConjuntoCaminosOptimizado();
-		
+
 		for(int i=0;i<carros.size();i++)
 		{
 			carros.get(i).setCaminoEnSeguimiento(caminosOptimizados.get(i));
 		}
-		
+
 	}
-	
+
 
 	/**
 	 * @return the carros
@@ -280,7 +281,7 @@ public class Malla {
 		for(Carro c: carros){
 			c.actualizarPosicion(c.getPosX()+1, c.getPosY()+1, 0);
 		}
-		
+
 	}
 
 
