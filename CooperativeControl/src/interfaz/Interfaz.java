@@ -66,12 +66,12 @@
 	    	
 	        setTitle( "VARA" );
 	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	        setResizable( false );
+	        setResizable( true );
 	        setSize( 420, 350);
 
 	        panelBotones = new PanelBotones(this );
 	        panelInformacion= new PanelInformacion();
-	        panelVisualizacion= new PanelVisualizacion();
+	        panelVisualizacion= new PanelVisualizacion(Malla.N);
 	        
 	        getContentPane( ).add( panelBotones, BorderLayout.SOUTH );
 	        getContentPane( ).add( panelInformacion, BorderLayout.NORTH );

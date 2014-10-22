@@ -11,7 +11,7 @@ public class Malla {
 	//Constantes
 	//--------------------------------------------------------------------------
 
-	private static final int N=10;
+	public static final int N=10;
 
 	private final static int CAR1 = 1;
 	private final static int CAR2 = 2;
