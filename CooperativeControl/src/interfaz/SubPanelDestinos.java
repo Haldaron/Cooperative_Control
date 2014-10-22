@@ -82,8 +82,16 @@ public class SubPanelDestinos extends JPanel {
 
 
 
-	public void setDestinos(String[] destinos){
+	public void setDestinos(String[] dests){
 		JLabel actual=null;
+		String[] destinos=new String[3];
+		if(dests==null){
+			for(String s:destinos){
+				s="Error";
+			}
+		}else{
+			destinos=dests;
+		}
 
 		for(int j =0; j<Interfaz.NUM_DESTINOS;j++)
 		{

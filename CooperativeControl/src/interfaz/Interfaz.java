@@ -149,7 +149,6 @@
 			int carrosIniciales[][]=panelInformacion.darCarrosIniciales();
 			int huertosIniciales[][]= panelInformacion.darHuertosIniciales();
 			
-			panelInformacion.iniciar();
 			panelVisualizacion.setValues(carrosIniciales);
 
 			try
@@ -157,6 +156,7 @@
 	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales,panelVisualizacion);
 	           panelVisualizacion.inicializarObservables(malla.getCarros());
 	           malla.addObserver();
+	           panelInformacion.iniciar(malla.darObjetivos());
 	           
 	        }
 	        catch(TamanosInvalidosInicializacionException e)

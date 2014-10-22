@@ -25,6 +25,13 @@ public class Malla {
 	private static final int CROP4= 4;
 
 	private final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
+	
+	private final static String DEST1="Huerto1";
+	private final static String DEST2="Huerto2";
+	private final static String DEST3="Huerto3";
+	private final static String DEST4="Huerto4";
+	private final static String DEST5="Bodega"; 
+	private final static String[] DESTINOS={DEST1,DEST2,DEST3,DEST4,DEST5};
 
 	private final static int HARVEST_TIME=30;
 	private final static int FRUIT_NUMBER=9;
@@ -51,6 +58,8 @@ public class Malla {
 	 * Vector con los huertos presentes en el terreno.<br>
 	 */
 	private ArrayList<Nodo> huertos;
+	
+	private ArrayList<Nodo> destinos;
 
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
 
@@ -81,8 +90,8 @@ public class Malla {
 		panelVisualizacion=panObserver;
 		inicializarCarros(inicialesCarros, angulosCarros);
 		inicializarHuertos(inicialesHuertos);
+		destinos=huertos;
 		inicializarMalla();
-
 		crearGrafo(malla);
 		asignarRutas();
 		optimizarCaminos();
@@ -175,7 +184,7 @@ public class Malla {
 	public void asignarRutas(){
 		for (Carro car :carros) 
 		{
-			asignarPosiblesCaminos(car, huertos);
+			asignarPosiblesCaminos(car);
 
 		}
 	}
@@ -236,16 +245,16 @@ public class Malla {
 	 * @param c Carro c al cual se le calcularán los posibles caminos.
 	 * @param objs ArrayList de objetivos con los nodos posibles a los cuales se puede dirigir el carro c
 	 */
-	public void asignarPosiblesCaminos(Carro c,ArrayList<Nodo> objs){
+	public void asignarPosiblesCaminos(Carro c){
 		FindPath fpActual= bfsCarroi(c);
 		int i; 
 		Nodo n;
 		Camino currentPath;
-		for(i=0; i<objs.size(); i++)
+		for(i=0; i<destinos.size(); i++)
 		{
-			n=objs.get(i);
+			n=destinos.get(i);
 			currentPath=construirCamino(fpActual, n.getPosY()*N+n.getPosX());
-			currentPath.setCarro(c);
+			currentPath.finish(c);
 			c.setCaminoI(i,currentPath);
 		}
 	}
@@ -285,6 +294,22 @@ public class Malla {
 			c.avanzarEnCamino();
 		}
 
+	}
+
+
+	public String[] darObjetivos() {
+		int carNum=carros.size();
+		int i,j;
+		String[] rta= new String[carNum];
+		Carro c;
+		
+		for(i=0; i< carNum; i++)
+		{
+			c=carros.get(i);
+			j=c.getCaminoEnSeguimiento().getDestino().getCodigo();
+			rta[i]=DESTINOS[j-1];
+		}
+		return rta;
 	}
 
 

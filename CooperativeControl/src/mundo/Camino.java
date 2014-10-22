@@ -8,12 +8,14 @@ public class Camino {
 	double longitudCamino;
 	int codigo;
 	Carro carro;
+	Nodo destino;
 
 	public Camino (int cod){
 		secuencia= new ArrayList<Nodo>();
 		longitudCamino=-1;
 		codigo=cod;
 		carro=null;
+		destino=null;
 	}
 	
 
@@ -124,7 +126,12 @@ public class Camino {
 	
 	public void setCarro(Carro c) {
 		this.carro = c;
-		recalcularDistancia();
+	}
+	
+	public Huerto getDestino()
+	{
+		return(Huerto)secuencia.get(secuencia.size()-1);
+		
 	}
 
 
@@ -151,6 +158,13 @@ public class Camino {
 		}
 		return rta;
 
+	}
+
+
+	public void finish(Carro c) {
+		setCarro(c);
+		destino=secuencia.get(secuencia.size()-1);
+		recalcularDistancia();		
 	}
 
 }

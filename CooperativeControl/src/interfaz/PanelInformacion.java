@@ -158,7 +158,7 @@ import javax.swing.border.TitledBorder;
 		 * Método que interpone como no editable los campos de texto del panel de infomación.
 		 */
 
-		public void iniciar() {
+		public void iniciar(String[] huertos) {
 	    	JTextField actual=null;
 	    	
 			for(int i=0; i <Interfaz.NUM_COORD;i++)
@@ -171,10 +171,7 @@ import javax.swing.border.TitledBorder;
 				}
 			}
 			pHuertos.iniciar();
-			String[] huertos= new String[3];
-			huertos[0]="Huerto1";
-			huertos[1]="Huerto2";
-			huertos[2]="Huerto3";
+	
 			pDestinos.setDestinos(huertos);
 			
 		}
