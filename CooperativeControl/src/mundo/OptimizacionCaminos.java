@@ -7,6 +7,7 @@ public class OptimizacionCaminos {
 	private ArrayList<Camino[]> conjuntoCaminos; 
 	private ArrayList<Camino> conjuntoCaminosOptimizados;
 	private ArrayList<Carro> carros;
+	private ArrayList<Integer> asignadosFinal;
 	private double minCost;
 	
 	/**
@@ -19,6 +20,8 @@ public class OptimizacionCaminos {
 		carros=pCarros;
 		conjuntoCaminosOptimizados = new ArrayList<Camino>();
 		conjuntoCaminos= new ArrayList<Camino[]>();
+		asignadosFinal= new ArrayList<Integer>();
+		
 		for(int i=0;i<carros.size();i++)
 		{
 			conjuntoCaminos.add(( carros.get(i)).getPosiblesCaminos());
@@ -49,7 +52,7 @@ public class OptimizacionCaminos {
 		minCost=0;	
 		for(int i=0;i<conjuntoCaminos.size();i++)
 		{
-			minCost+=conjuntoCaminos.get(i)[0].getLongitudCamino();	
+			minCost+=conjuntoCaminos.get(i)[i].getLongitudCamino();	
 		}
 		
 		//Creando vector
@@ -58,9 +61,12 @@ public class OptimizacionCaminos {
 			disponibles.add(i);
 		}
 		
-		//Hallando asignaci�n de caminos �ptima
-		asignados = asignarCaminos(disponibles,asignados);
+		asignadosFinal=new ArrayList<Integer>(disponibles);
 		
+		//Hallando asignaci�n de caminos �ptima
+		asignarCaminos(disponibles,asignados);
+		
+		asignados=asignadosFinal;
 		//carros que se han asignado a bodega
 		int carrosABodega=0;
 		//Asignando el camino escogido a cada veh�culo
@@ -117,7 +123,7 @@ public class OptimizacionCaminos {
 	}
 	
 	
-	private ArrayList<Integer> asignarCaminos(ArrayList<Integer> disponibles, ArrayList<Integer> asignados)
+	private void asignarCaminos(ArrayList<Integer> disponibles, ArrayList<Integer> asignados)
 	{
 		ArrayList<Integer> asignadosLocal;
 		ArrayList<Integer> disponiblesLocal;
@@ -128,19 +134,20 @@ public class OptimizacionCaminos {
 			double costo=0;
 			for(int i=0;i<asignados.size();i++)
 			{
-				costo+=conjuntoCaminos.get(i)[asignados.get(i)].getLongitudCamino();
+				costo+=conjuntoCaminos.get(i)[asignados.get(i)].getLongitudCamino();	
 			}
 			if(costo<minCost)
 			{
 				minCost=costo;
+				asignadosFinal=new ArrayList<Integer>(asignados);
 			}	
 		}
 		else
 		{
 			for(int i=0;i<disponibles.size();i++)
 			{
-				asignadosLocal=asignados;
-				disponiblesLocal=disponibles;
+				asignadosLocal=new ArrayList<Integer>(asignados);
+				disponiblesLocal=new ArrayList<Integer>(disponibles);
 				
 				asignadosLocal.add(disponiblesLocal.get(i));
 				disponiblesLocal.remove(i);
@@ -149,7 +156,6 @@ public class OptimizacionCaminos {
 			}
 		}
 		
-		return asignados;
 	}
 	
 	
