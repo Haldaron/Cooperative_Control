@@ -1,6 +1,11 @@
 package interfaz;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,6 +20,11 @@ import javax.swing.border.TitledBorder;
 import mundo.Carro;
 
 public class PanelVisualizacion extends JPanel implements Observer {
+	
+
+		public final static Color[] COLOR_CARROS={Color.RED, new Color(0,150,0),Color.BLUE};
+		public final static Color COLOR_MALLA=Color.BLACK;
+	
 	
 		private ArrayList<Carro> carros;
 		
@@ -37,15 +47,16 @@ public class PanelVisualizacion extends JPanel implements Observer {
 	    
 	    private JLabel[][] txtCars;
 	    
+	    private int n;
 	    
 	    
-	    public PanelVisualizacion(){
+	    public PanelVisualizacion(int pN){
 
 
 	        setLayout(new GridLayout(4,3));
 	        setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Visualizacion" ) ) );
 	        
-	        
+	        n=pN;
 	    	
 	        
 	        //Instanciar Labels y TextFields del panel
@@ -138,14 +149,90 @@ public class PanelVisualizacion extends JPanel implements Observer {
 				Carro c=(Carro)obs;
 				txtCars[0][codCar-1].setText(String.valueOf(c.getPosX()));
 				txtCars[1][codCar-1].setText(String.valueOf(c.getPosY()));
+				repaint();
 			
 			}
 		}
 
-
 		public void inicializarObservables(ArrayList<Carro> carros) {
 			this.carros=carros;
 		}
+		
+		//------------------------------------------------------------------------
+		//Métodos para la visualización de la malla
+		//------------------------------------------------------------------------
+
+		
+		public void paintComponent(Graphics g )
+		{
+			super.paintComponent(g);
+			
+			Graphics2D g2= (Graphics2D)g;
+			
+			pintarMalla(g2);
+			pintarCarros(g2);
+			pintarHuertos(g2);
+			pintarBase(g2);
+			
+		}
+			
+		
+		private void pintarBase(Graphics2D g2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		private void pintarHuertos(Graphics2D g2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		private void pintarCarros(Graphics2D g2) {
+			// TODO Auto-generated method stub
+			Dimension dim = this.getSize();
+			int separacion= dim.height/(n+1);
+			int inicialX = (dim.width-dim.height)/2+separacion;
+			int radio=separacion/3;
+			
+			if(!txtCars[0][0].getText().equals("-1"))
+			{
+					for(int i=0;i<3;i++)
+				{
+					int x = carros.get(i).posX*(separacion)+inicialX-radio; 
+					int y = carros.get(i).posY*(separacion)+separacion-radio;
+					
+					g2.setColor(COLOR_CARROS[i]);
+					
+					Ellipse2D.Double cir = new Ellipse2D.Double(x,y,2*radio,2*radio);
+					g2.fill(cir);
+				}
+			}
+			
+		}
+
+
+		public void pintarMalla(Graphics2D g2)
+		{
+			Dimension dim = this.getSize();
+			int separacion= dim.height/(n+1);
+			int inicialX = (dim.width-dim.height)/2+separacion;
+			
+			g2.setColor(COLOR_MALLA);
+					
+			for(int i=0; i < n;i++)
+			{
+							
+				//Dibujando lineas verticales
+				g2.drawLine(inicialX+separacion*i, separacion, inicialX+separacion*i, n*separacion);
+				
+				//Dibujando lineas horizontales
+				g2.drawLine(inicialX, separacion*(i+1), inicialX+(n-1)*separacion, separacion*(i+1));
+			}
+		
+		}
+		
 
 
 
