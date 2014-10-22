@@ -313,6 +313,13 @@ public class Malla {
 	}
 
 
+	public void iniciarMovimiento() {
+		for (Carro c : carros) {
+			c.iniciarMovimiento();
+		}
+	}
+
+
 
 }
 

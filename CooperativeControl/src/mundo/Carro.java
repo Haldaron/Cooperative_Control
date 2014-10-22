@@ -6,17 +6,22 @@ import java.util.Observable;
 
 public class Carro extends Observable{
 
-	public final static int CAPACIDAD=9;
+	private final static int CAPACIDAD=9;
+	private final static int MOVING_TIME=1000;
+	private final static int HARVEST_TIME=3000;
 
-	public int codigo;
-	public int posX;
-	public int posY;
-	public Camino caminoEnSeguimiento;
-	public Camino[] posiblesCaminos;
-	public double angulo;
-	public double velocidad;
-	public int carga;
-	public boolean cargado;
+	private int codigo;
+	private int posX;
+	private int posY;
+	private Camino caminoEnSeguimiento;
+	private Camino[] posiblesCaminos;
+	private double angulo;
+	private double velocidad;
+	private int carga;
+	private boolean cargado;
+	private ManejadorCarro manejadorCarro; 
+	public boolean allowRun;
+
 
 
 	public Carro(int cod, int posXinicial, int posYinicial, double angInicial){
@@ -28,6 +33,8 @@ public class Carro extends Observable{
 		angulo=angInicial;
 		velocidad=0;
 		carga=0;
+		manejadorCarro=null;
+		allowRun=false;
 	}
 
 	public void avanzarEnCamino(){
@@ -49,6 +56,7 @@ public class Carro extends Observable{
 				}
 			}else
 			{
+				caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
 				System.out.println("No hay elementos bien dispuestos en la secuencia del camino a seguir");
 			}
 
@@ -190,6 +198,15 @@ public class Carro extends Observable{
 			}
 		}
 
+	}
+	
+	public void iniciarMovimiento(){
+		allowRun=true;
+		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME);
+	}
+	
+	public void detenerMovimiento(){
+		allowRun=false;
 	}
 
 

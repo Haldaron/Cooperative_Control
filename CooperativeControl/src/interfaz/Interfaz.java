@@ -127,7 +127,10 @@
 		{
 			
 			if(malla!=null){
-				malla.avanzar();
+//				malla.avanzar();
+				malla.iniciarMovimiento();
+
+				
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "El mundo aun no ha sido inicializado\nIngrese valores iniciales validos y oprima iniciar", "Error"

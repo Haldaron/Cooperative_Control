@@ -34,9 +34,11 @@ public class Camino {
 	
 
 	public void eliminarPrimerNodoSecuencia(){
+		if(secuencia.size()>0){
 		secuencia.remove(0);
 		verificarInvariante();
 		recalcularDistancia();
+		}
 		
 	}
 	
