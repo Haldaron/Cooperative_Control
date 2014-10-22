@@ -200,8 +200,8 @@ public class PanelVisualizacion extends JPanel implements Observer {
 			{
 					for(int i=0;i<3;i++)
 				{
-					int x = carros.get(i).posX*(separacion)+inicialX-radio; 
-					int y = carros.get(i).posY*(separacion)+separacion-radio;
+					int x = carros.get(i).getPosX()*(separacion)+inicialX-radio; 
+					int y = carros.get(i).getPosY()*(separacion)+separacion-radio;
 					
 					g2.setColor(COLOR_CARROS[i]);
 					
