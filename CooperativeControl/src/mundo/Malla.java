@@ -224,6 +224,7 @@ public class Malla {
 				cRta.anadirNodoAlInicio(aIngresar);
 
 			}
+			
 		}else{
 			System.out.println("No hay Camino al objetivo con cod:"+codObjetivo);
 		}
@@ -239,10 +240,13 @@ public class Malla {
 		FindPath fpActual= bfsCarroi(c);
 		int i; 
 		Nodo n;
+		Camino currentPath;
 		for(i=0; i<objs.size(); i++)
 		{
 			n=objs.get(i);
-			c.setCaminoI(i,construirCamino(fpActual, n.getPosY()*N+n.getPosX()));
+			currentPath=construirCamino(fpActual, n.getPosY()*N+n.getPosX());
+			currentPath.setCarro(c);
+			c.setCaminoI(i,currentPath);
 		}
 	}
 

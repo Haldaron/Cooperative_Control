@@ -7,11 +7,13 @@ public class Camino {
 	ArrayList<Nodo> secuencia;
 	double longitudCamino;
 	int codigo;
+	Carro carro;
 
 	public Camino (int cod){
 		secuencia= new ArrayList<Nodo>();
 		longitudCamino=-1;
 		codigo=cod;
+		carro=null;
 	}
 	
 
@@ -46,7 +48,26 @@ public class Camino {
 
 	private void recalcularDistancia() {
 		double dist=0;
-		if(secuencia.size()!=0){
+		if(secuencia.size()!=0)
+		{
+			if(carro!=null){
+				Nodo primer= darPrimerNodo();
+				if(primer!=null)
+				{
+					if(primer.getPosX()==carro.getPosX() || carro.getPosY()==primer.getPosY())
+					{
+						dist++;
+					}else{
+						dist+=Math.sqrt(2);
+					}
+				}
+				else
+				{
+					System.out.println("El primer nodo del camino con cod "+codigo+" es nulo");
+				}
+				
+			}
+			
 			if(secuencia.size()!=1){
 				for(int i=1; i<secuencia.size();i++){
 					if(secuencia.get(i).getPosX()==secuencia.get(i-1).getPosX() 
@@ -99,6 +120,11 @@ public class Camino {
 
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}
+	
+	public void setCarro(Carro c) {
+		this.carro = c;
+		recalcularDistancia();
 	}
 
 
