@@ -48,9 +48,13 @@ public class Grafo {
 				}
 			}
 		}
-		
+
+		verificarInvariante();
 
 	}
+
+
+
 
 
 
@@ -90,6 +94,29 @@ public class Grafo {
 	}
 
 
+
+	private void verificarInvariante() {
+		int i,x1,y1,x2,y2 ;
+		ArrayList<Integer> actual;
+		Nodo nodoAEvaluar;
+		Nodo posibleAdyacente;
+		int N=(int) Math.sqrt(V);
+		for(i = 0; i< V; i++){
+			actual=adj(i);
+			x1=i%N;
+			y1=(i-x1)/N;
+			nodoAEvaluar=malla[y1][x1];
+			for (Integer j : actual) 
+			{
+				x2=j%N;
+				y2=(j-x2)/N;
+				posibleAdyacente=malla[y2][x2];
+				if(!nodoAEvaluar.esAdyacenteA(posibleAdyacente)){
+					System.err.println("Error en posición "+i+" de lista.");
+				}
+			}
+		}
+	}
 
 
 }

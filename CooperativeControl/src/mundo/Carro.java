@@ -1,12 +1,13 @@
 package mundo;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 
 public class Carro extends Observable{
-	
+
 	public final static int CAPACIDAD=9;
-	
+
 	public int codigo;
 	public int posX;
 	public int posY;
@@ -16,32 +17,49 @@ public class Carro extends Observable{
 	public double velocidad;
 	public int carga;
 	public boolean cargado;
-	
-	
+
+
 	public Carro(int cod, int posXinicial, int posYinicial, double angInicial){
 		codigo=cod;
-		posX=0;
-		posY=0;
-		
-		actualizarPosicion(posXinicial, posXinicial, angInicial);
-		
-		
+		posX=posXinicial;
+		posY=posYinicial;
 		caminoEnSeguimiento =null;
 		posiblesCaminos=new Camino[4];
 		angulo=angInicial;
 		velocidad=0;
 		carga=0;
 	}
-	
-	public boolean avanzarEnCamino(){
-		return false;
-		
+
+	public void avanzarEnCamino(){
+
+		if(caminoEnSeguimiento!=null)
+		{
+			Nodo firstNode=caminoEnSeguimiento.darPrimerNodo();
+
+			if(firstNode!=null)
+			{
+				if(firstNode.getPosX()==posX && firstNode.getPosY()==posY)
+				{
+					caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
+					avanzarEnCamino();
+				}else
+				{
+					actualizarPosicion(firstNode.getPosX(), firstNode.getPosY(), 0.0);
+					caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
+				}
+			}else
+			{
+				System.out.println("No hay elementos bien dispuestos en la secuencia del camino a seguir");
+			}
+
+		}
+
 	}
-	
+
 
 	public void actualizarPosicion(int x, int y , double angulo){
 
-		
+
 		setAngulo(angulo);
 		setPosX(x);
 		setPosY(y);
@@ -49,9 +67,9 @@ public class Carro extends Observable{
 		notifyObservers(codigo);
 
 	}	
-	
+
 	///Getters And Setters
-	
+
 	/**
 	 * @param i Posición del arreglo en el cual se insertará el Camino c
 	 * @param c Camino a insertar en la posición i del arrglo.
@@ -59,12 +77,12 @@ public class Carro extends Observable{
 	public void setCaminoI(int i , Camino c){
 		posiblesCaminos[i]=c;
 	}
-	
+
 	public boolean getCargado()
 	{
 		return cargado;
 	}
-	
+
 	/**
 	 * @return the codigo
 	 */
@@ -171,10 +189,10 @@ public class Carro extends Observable{
 				cargado=true;
 			}
 		}
-	
+
 	}
-	
-	
-	
+
+
+
 
 }

@@ -19,15 +19,29 @@ public class Camino {
 		secuencia.add(n);
 		verificarInvariante();
 		recalcularDistancia();
-
-
 	}
+	
+	public void anadirNodoAlInicio(Nodo n){
+		secuencia.add(0,n);;
+		verificarInvariante();
+		recalcularDistancia();
+	}
+	
+	
 
 	public void eliminarPrimerNodoSecuencia(){
 		secuencia.remove(0);
 		verificarInvariante();
 		recalcularDistancia();
 		
+	}
+	
+	public Nodo darPrimerNodo(){
+		Nodo rta= null;
+		if(secuencia.size()>0){
+			rta=secuencia.get(0);
+		}
+		return rta;
 	}
 
 	private void recalcularDistancia() {

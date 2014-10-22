@@ -84,10 +84,9 @@ public class Malla {
 		inicializarMalla();
 
 		crearGrafo(malla);
-
 		asignarRutas();
 		optimizarCaminos();
-		System.out.println("Termino de iniciar");
+		int i =0;
 	}
 
 
@@ -222,7 +221,7 @@ public class Malla {
 				x=sig%N;
 				y=(sig-x)/N;
 				aIngresar=malla[y][x];
-				cRta.anadirNodoAlfinal(aIngresar);
+				cRta.anadirNodoAlInicio(aIngresar);
 
 			}
 		}else{
@@ -279,7 +278,7 @@ public class Malla {
 
 	public void avanzar() {
 		for(Carro c: carros){
-			c.actualizarPosicion(c.getPosX()+1, c.getPosY()+1, 0);
+			c.avanzarEnCamino();
 		}
 
 	}

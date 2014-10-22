@@ -123,4 +123,20 @@ public class Nodo {
 	{
 		enable=pEnable;
 	}
+	
+	public boolean esAdyacenteA(Nodo n){
+		boolean rta= true;
+		int x,y;
+		if(n!=null)
+		{
+			x=n.getPosX();
+			y=n.getPosY();
+			if(x<(posX-1) || x>(posX+1) || y<(posY-1) || y>(posY+1)){
+				rta=false;
+				System.err.println("Nodo no adyacente");
+			}
+			
+		}
+		return rta;
+	}
 }
