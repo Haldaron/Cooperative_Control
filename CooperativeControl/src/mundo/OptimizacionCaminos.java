@@ -21,10 +21,8 @@ public class OptimizacionCaminos {
 		conjuntoCaminos= new ArrayList<Camino[]>();
 		for(int i=0;i<carros.size();i++)
 		{
-			Camino c1= carros.get(i).getPosiblesCaminos()[i];
-			
-
 			conjuntoCaminos.add(( carros.get(i)).getPosiblesCaminos());
+			conjuntoCaminosOptimizados.add(null);
 		}
 		optimizarCaminos();
 	}
@@ -51,7 +49,7 @@ public class OptimizacionCaminos {
 		minCost=0;	
 		for(int i=0;i<conjuntoCaminos.size();i++)
 		{
-			minCost+=conjuntoCaminos.get(i)[i].getLongitudCamino();	
+			minCost+=conjuntoCaminos.get(i)[0].getLongitudCamino();	
 		}
 		
 		//Creando vector
@@ -94,11 +92,12 @@ public class OptimizacionCaminos {
 				
 				//Creando nuevo Camino[] eliminando el camino a bodega (que est� en la �ltima posici�n)
 				Camino[] nuevo = new Camino[conjuntoCaminos.get(i).length-1];
-				for(int j=0;j<conjuntoCaminos.get(0).length-1;j++)
+				for(int j=0;j<conjuntoCaminos.get(i).length-1;j++)
 				{
 					nuevo[j]=conjuntoCaminos.get(i)[j];
 				}
 				//Asignando el nuevo Camino[] al conjunto caminos
+				conjuntoCaminos.remove(i);
 				conjuntoCaminos.add(i,nuevo);
 				
 			}
