@@ -80,7 +80,7 @@ public class Camino {
 			}
 			longitudCamino=dist;
 		}else{
-			longitudCamino=-1;
+			longitudCamino=0;
 		}
 
 	}
