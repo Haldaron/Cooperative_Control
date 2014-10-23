@@ -1,5 +1,7 @@
 package interfaz;
 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -18,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import mundo.Carro;
+import mundo.Huerto;
+import mundo.Nodo;
 
 public class PanelVisualizacion extends JPanel implements Observer {
 	
@@ -27,6 +31,7 @@ public class PanelVisualizacion extends JPanel implements Observer {
 	
 	
 		private ArrayList<Carro> carros;
+		private ArrayList<Nodo> huertos;
 		
 	    private JLabel		lblCarro1;
 
@@ -47,17 +52,31 @@ public class PanelVisualizacion extends JPanel implements Observer {
 	    
 	    private JLabel[][] txtCars;
 	    
-	    private int n;
+	  
+	    
+	    
+	    private PanelMapa panelMapa;
+	    private JPanel panelDatos;
 	    
 	    
 	    public PanelVisualizacion(int pN){
 
 
-	        setLayout(new GridLayout(4,3));
+	        setLayout(new GridLayout(1,2));
 	        setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Visualizacion" ) ) );
 	        
-	        n=pN;
-	    	
+	        //Inicializar paneles internos
+	        panelMapa=new PanelMapa(null,null,pN);
+	        panelMapa.setVisible(true);
+	        panelMapa.setSize(100,100);
+	        
+
+	        panelDatos=new JPanel();
+	        panelDatos.setLayout(new GridLayout(4,3));
+
+	        
+	        add(panelDatos);
+	    	add(panelMapa);
 	        
 	        //Instanciar Labels y TextFields del panel
 	        lblXC= new JLabel("X");
@@ -92,23 +111,21 @@ public class PanelVisualizacion extends JPanel implements Observer {
 	        
 	        setDefault();
 
-	        add(emptyC);
-	        add(lblXC);
-	        add(lblYC);
+	        panelDatos.add(emptyC);
+	        panelDatos.add(lblXC);
+	        panelDatos.add(lblYC);
 	        
-	        add(lblCarro1);
-	        add(txtCarro1X);
-	        add(txtCarro1Y);
+	        panelDatos.add(lblCarro1);
+	        panelDatos.add(txtCarro1X);
+	        panelDatos.add(txtCarro1Y);
 	        
-	        add(lblCarro2);
-	        add(txtCarro2X);
-	        add(txtCarro2Y);
+	        panelDatos.add(lblCarro2);
+	        panelDatos.add(txtCarro2X);
+	        panelDatos.add(txtCarro2Y);
 	        
-	        add(lblCarro3);
-	        add(txtCarro3X);
-	        add(txtCarro3Y);
-	    	
-	    	
+	        panelDatos.add(lblCarro3);
+	        panelDatos.add(txtCarro3X);
+	        panelDatos.add(txtCarro3Y);
 	    }
 	    
 	    
@@ -149,91 +166,14 @@ public class PanelVisualizacion extends JPanel implements Observer {
 				Carro c=(Carro)obs;
 				txtCars[0][codCar-1].setText(String.valueOf(c.getPosX()));
 				txtCars[1][codCar-1].setText(String.valueOf(c.getPosY()));
-				paintComponent(this.getGraphics());
+				panelMapa.repaint();
 			}
 		}
 
-		public void inicializarObservables(ArrayList<Carro> carros) {
+		public void inicializarObservables(ArrayList<Carro> carros,ArrayList<Nodo> huertos) {
 			this.carros=carros;
-		}
-		
-		//------------------------------------------------------------------------
-		//Métodos para la visualización de la malla
-		//------------------------------------------------------------------------
-
-		
-		public void paintComponent(Graphics g )
-		{
-			super.paintComponent(g);
-			
-			Graphics2D g2= (Graphics2D)g;
-			
-			pintarMalla(g2);
-			pintarCarros(g2);
-			pintarHuertos(g2);
-			pintarBase(g2);
+			this.huertos=huertos;
+			panelMapa.inicializarInformacion(carros,huertos);
 			
 		}
-			
-		
-		private void pintarBase(Graphics2D g2) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		private void pintarHuertos(Graphics2D g2) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		private void pintarCarros(Graphics2D g2) {
-			// TODO Auto-generated method stub
-			Dimension dim = this.getSize();
-			int separacion= dim.height/(n+1);
-			int inicialX = (dim.width-dim.height)/2+separacion;
-			int radio=separacion/3;
-			
-			if(!txtCars[0][0].getText().equals("-1"))
-			{
-					for(int i=0;i<3;i++)
-				{
-					int x = carros.get(i).getPosX()*(separacion)+inicialX-radio; 
-					int y = carros.get(i).getPosY()*(separacion)+separacion-radio;
-					
-					g2.setColor(COLOR_CARROS[i]);
-					
-					Ellipse2D.Double cir = new Ellipse2D.Double(x,y,2*radio,2*radio);
-					g2.fill(cir);
-				}
-			}
-			
-		}
-
-
-		public void pintarMalla(Graphics2D g2)
-		{
-			Dimension dim = this.getSize();
-			int separacion= dim.height/(n+1);
-			int inicialX = (dim.width-dim.height)/2+separacion;
-			
-			g2.setColor(COLOR_MALLA);
-					
-			for(int i=0; i < n;i++)
-			{
-							
-				//Dibujando lineas verticales
-				g2.drawLine(inicialX+separacion*i, separacion, inicialX+separacion*i, n*separacion);
-				
-				//Dibujando lineas horizontales
-				g2.drawLine(inicialX, separacion*(i+1), inicialX+(n-1)*separacion, separacion*(i+1));
-			}
-		
-		}
-		
-
-
-
-
 }
