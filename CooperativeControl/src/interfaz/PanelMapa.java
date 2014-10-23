@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,6 +27,8 @@ public class PanelMapa extends JPanel  {
 
 		public final static Color[] COLOR_CARROS={Color.RED, new Color(0,150,0),Color.BLUE};
 		public final static Color COLOR_MALLA=Color.BLACK;
+		public final static Color COLOR_HUERTO=new Color(150,100,50);
+		public final static Color COLOR_BASE=new Color(150,100,50);
 	
 	
 		private ArrayList<Carro> carros;
@@ -86,8 +89,9 @@ public class PanelMapa extends JPanel  {
 			
 			
 			pintarMalla(g2);
-			pintarCarros(g2);
 			pintarHuertos(g2);
+			pintarCarros(g2);
+
 			pintarBase(g2);
 			
 		}
@@ -95,6 +99,20 @@ public class PanelMapa extends JPanel  {
 		
 		private void pintarBase(Graphics2D g2) {
 			// TODO Auto-generated method stub
+			
+			Dimension dim = this.getSize();
+			int separacion= limitante/(n+1);
+			int inicialX = (dim.width-limitante)/2+separacion;
+			int inicialY = (dim.height-limitante)/2+separacion;
+			int lado=separacion;
+			
+			g2.setColor(COLOR_HUERTO);
+			
+			Rectangle2D.Double rec = new Rectangle2D.Double(inicialX-lado/2,inicialY-lado/2,lado,lado);
+			g2.fill(rec);
+			
+			g2.setColor(COLOR_MALLA);
+			g2.draw(rec);
 			
 		}
 
@@ -107,20 +125,20 @@ public class PanelMapa extends JPanel  {
 			int inicialY = (dim.height-limitante)/2+separacion;
 			int radio=separacion/3;
 			
-			if(carros!=null)
+			if(huertos!=null)
 			{
-					for(int i=0;i<3;i++)
+					for(int i=0;i<huertos.size();i++)
 				{
-					int x = carros.get(i).getPosX()*(separacion)+inicialX-radio; 
-					int y = carros.get(i).getPosY()*(separacion)+inicialY-radio;
+					int x = huertos.get(i).getPosX()*(separacion)+inicialX-radio; 
+					int y = huertos.get(i).getPosY()*(separacion)+inicialY-radio;
 					
-					g2.setColor(COLOR_CARROS[i]);
+					g2.setColor(COLOR_HUERTO);
 					
-					Ellipse2D.Double cir = new Ellipse2D.Double(x,y,2*radio,2*radio);
-					g2.fill(cir);
+					Rectangle2D.Double rec = new Rectangle2D.Double(x,y,2*radio,2*radio);
+					g2.fill(rec);
 					
 					g2.setColor(COLOR_MALLA);
-					g2.draw(cir);
+					g2.draw(rec);
 				}
 			}
 			

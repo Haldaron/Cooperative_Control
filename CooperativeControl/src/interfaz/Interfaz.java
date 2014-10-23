@@ -158,6 +158,7 @@
 	        {
 	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales,panelVisualizacion);
 	           panelVisualizacion.inicializarObservables(malla.getCarros(),malla.getHuertos());
+	           
 	           malla.addObserver();
 	           panelInformacion.iniciar(malla.darObjetivos());
 	           
