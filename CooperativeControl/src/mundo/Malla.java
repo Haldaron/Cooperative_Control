@@ -280,7 +280,15 @@ public class Malla {
 	public ArrayList<Carro> getCarros() {
 		return carros;
 	}
+	
 
+	/**
+	 * @return the huertos
+	 */
+	public ArrayList<Nodo> getHuertos() {
+		return huertos;
+		
+	}
 
 	public void addObserver() {
 		for(Carro c: carros){
