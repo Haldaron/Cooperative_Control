@@ -281,6 +281,12 @@ public class Malla {
 		return carros;
 	}
 
+	/**
+	 * @return the huertos
+	 */
+	public ArrayList<Nodo> getHuertos() {
+		return huertos;
+	}
 
 	public void addObserver() {
 		for(Carro c: carros){
