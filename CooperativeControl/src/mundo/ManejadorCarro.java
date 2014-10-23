@@ -20,15 +20,16 @@ public class ManejadorCarro extends Thread{
 	public void run() 
 	{
 		Camino enSeguimiento=carro.getCaminoEnSeguimiento() ;
-		Nodo n = enSeguimiento.darPrimerNodo() ;
-		while(n!=null && carro.allowRun)
+		while(enSeguimiento.darPrimerNodo()!=null && carro.allowRun)
 		{
-			long i;
-			for( i =0; i<100000*movingTime;i++){
-				
+			try {
+				sleep(1000);
+				carro.avanzarEnCamino();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			carro.avanzarEnCamino();
-			n= enSeguimiento.darPrimerNodo();
+
 		}
 		
 	}

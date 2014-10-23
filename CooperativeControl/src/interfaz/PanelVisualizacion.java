@@ -149,8 +149,7 @@ public class PanelVisualizacion extends JPanel implements Observer {
 				Carro c=(Carro)obs;
 				txtCars[0][codCar-1].setText(String.valueOf(c.getPosX()));
 				txtCars[1][codCar-1].setText(String.valueOf(c.getPosY()));
-				repaint();
-			
+				paintComponent(this.getGraphics());
 			}
 		}
 

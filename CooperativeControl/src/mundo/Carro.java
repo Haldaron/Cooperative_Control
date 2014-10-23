@@ -61,6 +61,8 @@ public class Carro extends Observable{
 			}
 
 		}
+		System.out.println(String.valueOf(posX));
+		System.out.println(String.valueOf(posX));
 
 	}
 
