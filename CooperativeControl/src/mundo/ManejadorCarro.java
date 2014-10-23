@@ -12,7 +12,7 @@ public class ManejadorCarro extends Thread{
 		carro=c;
 		movingTime=mT;
 		harvestTime=hT;
-		run();
+		//run();
 		
 	}
 	

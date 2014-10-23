@@ -205,6 +205,7 @@ public class Carro extends Observable{
 	public void iniciarMovimiento(){
 		allowRun=true;
 		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME);
+		manejadorCarro.start();
 	}
 	
 	public void detenerMovimiento(){
