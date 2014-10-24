@@ -31,6 +31,8 @@ public class Nodo {
 	 */
 	private boolean enable;
 	
+	private boolean aUtilizar;
+	
 
 	//--------------------------------------------------------------------------
 	//Constructor
@@ -48,7 +50,7 @@ public class Nodo {
 	
 		posX=pX;
 		posY=pY;
-		
+		aUtilizar=false;
 		enable=true;
 	}
 	
@@ -124,6 +126,22 @@ public class Nodo {
 		enable=pEnable;
 	}
 	
+	/**
+	 * @return the aUtilizar
+	 */
+	public boolean isaUtilizar() {
+		return aUtilizar;
+	}
+
+
+	/**
+	 * @param aUtilizar the aUtilizar to set
+	 */
+	public void setaUtilizar(boolean aUtilizar) {
+		this.aUtilizar = aUtilizar;
+	}
+
+
 	public boolean esAdyacenteA(Nodo n){
 		boolean rta= true;
 		int x,y;

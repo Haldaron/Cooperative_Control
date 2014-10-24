@@ -4,9 +4,10 @@ package mundo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Observer;
 
-public class Malla {
+public class Malla  {
 	//--------------------------------------------------------------------------
 	//Constantes
 	//--------------------------------------------------------------------------
@@ -88,11 +89,12 @@ public class Malla {
 		huertos = new ArrayList<Nodo>();
 		malla= new Nodo[N][N];
 		panelVisualizacion=panObserver;
-		inicializarCarros(inicialesCarros, angulosCarros);
-		inicializarHuertos(inicialesHuertos);
 		destinos=huertos;
+		inicializarHuertos(inicialesHuertos);
 		inicializarMalla();
 		crearGrafo(malla);
+		inicializarCarros(inicialesCarros, angulosCarros);
+
 		asignarRutas();
 		optimizarCaminos();
 		int i =0;
@@ -141,10 +143,11 @@ public class Malla {
 				&& inicialesC[1].length==CARCODES.length 
 				&& angulos.length==CARCODES.length)
 		{
+			Nodo aInitialNode;
 			for(int i =0; i<CARCODES.length;i++)
 			{
-				carros.add( new Carro(CARCODES[i], inicialesC[0][i],inicialesC[1][i], angulos[i]));
-
+				aInitialNode=malla[inicialesC[1][i]][inicialesC[0][i]];
+				carros.add( new Carro(CARCODES[i], aInitialNode, angulos[i]));
 			}		
 		}else
 		{
@@ -326,7 +329,6 @@ public class Malla {
 			c.iniciarMovimiento();
 		}
 	}
-
 
 
 

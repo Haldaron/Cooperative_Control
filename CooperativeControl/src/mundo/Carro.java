@@ -1,6 +1,5 @@
 package mundo;
 
-import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -8,33 +7,46 @@ public class Carro extends Observable{
 
 	private final static int CAPACIDAD=9;
 	private final static int MOVING_TIME=1000;
+	private final static int WAITING_TIME=MOVING_TIME/4;
 	private final static int HARVEST_TIME=3000;
+	
+//	public final static int STOPPED=0;
+//	public final static int MOVING=1;
+//	public final static int HARVESTING=2;
+//	public final static int STORING=3;
 
 	private int codigo;
-	private int posX;
-	private int posY;
 	private Camino caminoEnSeguimiento;
 	private Camino[] posiblesCaminos;
 	private double angulo;
-	private double velocidad;
 	private int carga;
 	private boolean cargado;
 	private ManejadorCarro manejadorCarro; 
 	public boolean allowRun;
+	
+	/**
+	 * case(state)
+	 * 0:stopped
+	 * 1:movement
+	 * 2:harvesting
+	 * 3:leavingProdudcts
+	 */
+//	public int state;
+	private Nodo nodoActual;
 
 
 
-	public Carro(int cod, int posXinicial, int posYinicial, double angInicial){
+	public Carro(int cod, Nodo initialNode, double angInicial){
 		codigo=cod;
-		posX=posXinicial;
-		posY=posYinicial;
+		nodoActual=initialNode;
 		caminoEnSeguimiento =null;
 		posiblesCaminos=new Camino[4];
 		angulo=angInicial;
-		velocidad=0;
 		carga=0;
+//		state=STOPPED;
 		manejadorCarro=null;
 		allowRun=false;
+		
 	}
 
 	public void avanzarEnCamino(){
@@ -42,42 +54,61 @@ public class Carro extends Observable{
 		if(caminoEnSeguimiento!=null)
 		{
 			Nodo firstNode=caminoEnSeguimiento.darPrimerNodo();
-
 			if(firstNode!=null)
 			{
-				if(firstNode.getPosX()==posX && firstNode.getPosY()==posY)
-				{
-					caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
-					avanzarEnCamino();
-				}else
-				{
-					actualizarPosicion(firstNode.getPosX(), firstNode.getPosY(), 0.0);
-					caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
-				}
+				firstNode.setaUtilizar(false);
+				nodoActual=caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
+				notifyChange(0.0);
+
 			}else
 			{
 				caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
 				System.out.println("No hay elementos bien dispuestos en la secuencia del camino a seguir");
 			}
-
 		}
-		System.out.println(String.valueOf(posX));
-		System.out.println(String.valueOf(posX));
-
 	}
 
 
-	public void actualizarPosicion(int x, int y , double angulo){
-
-
-		setAngulo(angulo);
-		setPosX(x);
-		setPosY(y);
+	public boolean  evaluarRecoleccion() 
+	{
+		boolean rta= false;
+		try{
+			Huerto destRecoleccion=(Huerto)nodoActual;
+			rta=true;
+		}catch(ClassCastException e){
+			System.out.println("El nodo actual no es un huerto, error en el avance");
+		}
+		return rta;
+	}
+	
+	public void evaluarSiguienteMovimiento() 
+	{
+		Nodo n= caminoEnSeguimiento.darPrimerNodo();
+		if(n!=null)
+		{
+			if(!n.isaUtilizar())
+			{
+				n.setaUtilizar(true);
+				allowRun=true;
+			}else{
+				allowRun=false;
+			}
+		}
+	}
+	
+	public void iniciarMovimiento(){
+		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME,WAITING_TIME);
+		manejadorCarro.start();
+	}
+	
+	public void notifyChange(double angulo)
+	{
+		this.angulo=angulo;
 		setChanged();
 		notifyObservers(codigo);
 
 	}	
-
+	
 	///Getters And Setters
 
 	/**
@@ -137,26 +168,17 @@ public class Carro extends Observable{
 	 * @return the posX
 	 */
 	public int getPosX() {
-		return posX;
+		return nodoActual.getPosX();
 	}
-	/**
-	 * @param posX the posX to set
-	 */
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
+
+
 	/**
 	 * @return the posY
 	 */
 	public int getPosY() {
-		return posY;
+		return nodoActual.getPosY();
 	}
-	/**
-	 * @param posY the posY to set
-	 */
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
+
 	/**
 	 * @return the angulo
 	 */
@@ -169,18 +191,7 @@ public class Carro extends Observable{
 	public void setAngulo(double angulo) {
 		this.angulo = angulo;
 	}
-	/**
-	 * @return the velocidad
-	 */
-	public double getVelocidad() {
-		return velocidad;
-	}
-	/**
-	 * @param velocidad the velocidad to set
-	 */
-	public void setVelocidad(double velocidad) {
-		this.velocidad = velocidad;
-	}
+	
 	/**
 	 * @return the carga
 	 */
@@ -202,15 +213,58 @@ public class Carro extends Observable{
 
 	}
 	
-	public void iniciarMovimiento(){
-		allowRun=true;
-		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME);
-		manejadorCarro.start();
+	/**
+	 * @return the manejadorCarro
+	 */
+	public ManejadorCarro getManejadorCarro() {
+		return manejadorCarro;
 	}
-	
-	public void detenerMovimiento(){
-		allowRun=false;
+
+	/**
+	 * @param manejadorCarro the manejadorCarro to set
+	 */
+	public void setManejadorCarro(ManejadorCarro manejadorCarro) {
+		this.manejadorCarro = manejadorCarro;
 	}
+
+	/**
+	 * @return the state
+	 */
+//	public int getState() {
+//		return state;
+//	}
+
+	/**
+	 * @param state the state to set
+	 */
+//	public void setState(int state) {
+//		this.state = state;
+//	}
+
+	/**
+	 * @return the nodoActual
+	 */
+	public Nodo getNodoActual() {
+		return nodoActual;
+	}
+
+	/**
+	 * @param nodoActual the nodoActual to set
+	 */
+	public void setNodoActual(Nodo nodoActual) {
+		this.nodoActual = nodoActual;
+	}
+
+	/**
+	 * @param cargado the cargado to set
+	 */
+	public void setCargado(boolean cargado) {
+		this.cargado = cargado;
+	}
+
+
+
+
 
 
 

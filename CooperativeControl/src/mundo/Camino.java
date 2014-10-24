@@ -33,12 +33,14 @@ public class Camino {
 	
 	
 
-	public void eliminarPrimerNodoSecuencia(){
+	public Nodo eliminarPrimerNodoSecuencia(){
+		Nodo rta=null;
 		if(secuencia.size()>0){
-		secuencia.remove(0);
+		rta=secuencia.remove(0);
 		verificarInvariante();
 		recalcularDistancia();
 		}
+		return rta;
 		
 	}
 	
