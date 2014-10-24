@@ -1,5 +1,6 @@
 package interfaz;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -85,14 +86,15 @@ public class PanelMapa extends JPanel  {
 			
 			Graphics2D g2= (Graphics2D)g;
 			
+			g2.setStroke(new BasicStroke(2));
+			
 			limitante=(this.getHeight()>this.getWidth())? this.getWidth():this.getHeight();
-			
-			
+						
 			pintarMalla(g2);
+			pintarBase(g2);
 			pintarHuertos(g2);
 			pintarCarros(g2);
 
-			pintarBase(g2);
 			
 		}
 			
