@@ -139,12 +139,10 @@ public class Huerto{
      * cambió la disponibilidad del nodo<br>
      */
 	
-	public void decrementarFrutos()
+	public int decrementarFrutos()
 	{
 		numFrutos--;
-		if(numFrutos==0){
-			setEstado(VACIO);
-		}
+		return numFrutos;
 
 	}
 

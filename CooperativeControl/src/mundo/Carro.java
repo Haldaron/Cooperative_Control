@@ -9,7 +9,7 @@ public class Carro extends Observable{
 	private final static int MOVING_TIME=1000;
 	private final static int WAITING_TIME=MOVING_TIME/4;
 	private final static int HARVEST_TIME=3000;
-	
+
 	public final static int STOPPED=0;
 	public final static int MOVING=1;
 	public final static int HARVESTING=2;
@@ -23,7 +23,7 @@ public class Carro extends Observable{
 	private boolean cargado;
 	private ManejadorCarro manejadorCarro; 
 	private Huerto huerto;
-	
+
 	/**
 	 * case(state)
 	 * 0:stopped
@@ -31,7 +31,7 @@ public class Carro extends Observable{
 	 * 2:harvesting
 	 * 3:leavingProdudcts
 	 */
-//	public int state;
+	//	public int state;
 	private Nodo nodoActual;
 
 
@@ -45,7 +45,7 @@ public class Carro extends Observable{
 		carga=0;
 		huerto=null;
 		manejadorCarro=null;
-		
+
 	}
 
 	public void avanzarEnCamino(){
@@ -66,38 +66,49 @@ public class Carro extends Observable{
 			}
 		}
 	}
-	
-	public boolean recolectar() {
-		
-		if(huerto!=null){
-			huerto.decrementarFrutos();
-		}
-		return false;
-		
-	}
 
-	public boolean evaluarActHuerto(){
-		boolean rta=false;
-		
-		if(nodoActual.getHuerto()!=null){
-			huerto=nodoActual.getHuerto();
-			rta=true;
-		}
+	public void recolectar() {
+			if(huerto.decrementarFrutos()>0){
+			carga++;
+			huerto.setEstado(Huerto.DISPONIBLE);
+			}else{
+				huerto.setEstado(Huerto.VACIO);
+			}
+			System.out.print("Carro");
+			System.out.println(codigo);
+			System.out.println(carga);
 
-			System.out.println("El nodo actual no es un huerto, error en el avance");
-		
-		return rta;
 	}
 
 	public int  evaluarRecoleccion() 
 	{
-		if(huerto!=null){
-			return huerto.getEstado();
+		int estado;		
+		if(huerto!=null)
+		{
+			estado=huerto.getEstado();
+			if(estado==Huerto.DISPONIBLE){
+				huerto.setEstado(Huerto.EN_RECOLECCION);				
+			}
+			return estado;
 		}
 		return Huerto.ERROR;
-
 	}
-	
+
+	public boolean evaluarActHuerto(){
+		boolean rta=false;
+
+		if(nodoActual.getHuerto()!=null){
+			huerto=nodoActual.getHuerto();
+			rta=true;
+		}else{
+		System.out.println("El nodo actual no es un huerto, error en el avance");
+		}
+
+		return rta;
+	}
+
+
+
 	public boolean evaluarSiguienteMovimiento() 
 	{
 		Nodo n= caminoEnSeguimiento.darPrimerNodo();
@@ -113,12 +124,12 @@ public class Carro extends Observable{
 		}
 		return false;
 	}
-	
+
 	public void iniciarMovimiento(){
 		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME,WAITING_TIME);
 		manejadorCarro.start();
 	}
-	
+
 	public void notifyChange(double angulo)
 	{
 		this.angulo=angulo;
@@ -126,7 +137,7 @@ public class Carro extends Observable{
 		notifyObservers(codigo);
 
 	}	
-	
+
 	///Getters And Setters
 
 	/**
@@ -209,7 +220,7 @@ public class Carro extends Observable{
 	public void setAngulo(double angulo) {
 		this.angulo = angulo;
 	}
-	
+
 	/**
 	 * @return the carga
 	 */
@@ -230,7 +241,7 @@ public class Carro extends Observable{
 		}
 
 	}
-	
+
 	/**
 	 * @return the manejadorCarro
 	 */
@@ -245,19 +256,6 @@ public class Carro extends Observable{
 		this.manejadorCarro = manejadorCarro;
 	}
 
-	/**
-	 * @return the state
-	 */
-//	public int getState() {
-//		return state;
-//	}
-
-	/**
-	 * @param state the state to set
-	 */
-//	public void setState(int state) {
-//		this.state = state;
-//	}
 
 	/**
 	 * @return the nodoActual

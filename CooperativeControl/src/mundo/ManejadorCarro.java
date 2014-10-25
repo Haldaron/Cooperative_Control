@@ -25,7 +25,7 @@ public class ManejadorCarro extends Thread{
 		while(runningThread){
 
 			movimiento();
-//			recoleccion();
+			recoleccion();
 			runningThread=false;
 
 
@@ -37,7 +37,6 @@ public class ManejadorCarro extends Thread{
 	public void movimiento(){
 		while(carro.getCaminoEnSeguimiento().darPrimerNodo()!=null)
 		{
-
 			if(carro.evaluarSiguienteMovimiento()){
 				try {
 					sleep(movingTime);
@@ -55,7 +54,6 @@ public class ManejadorCarro extends Thread{
 				}
 
 			}
-
 		}
 
 	}
@@ -68,6 +66,8 @@ public class ManejadorCarro extends Thread{
 			estado=carro.evaluarRecoleccion();
 
 			if(estado==Huerto.DISPONIBLE){
+				carro.recolectar();
+				
 				try {
 					sleep(harvestTime);
 				} 
@@ -75,7 +75,9 @@ public class ManejadorCarro extends Thread{
 				{
 					e.printStackTrace();
 				}
-				carro.recolectar();
+				
+
+
 			}
 			else if(estado==Huerto.EN_RECOLECCION){
 				try {
@@ -83,6 +85,11 @@ public class ManejadorCarro extends Thread{
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}
+			else if(estado==Huerto.VACIO){
+				//TODO: Diseñar el accionar a seguir cuando el huerto se encuentra vacio.
+				cont=false;
+				runningThread=false;
 			}
 			else if(estado==Huerto.ERROR)
 			{
