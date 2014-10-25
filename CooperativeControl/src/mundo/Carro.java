@@ -10,10 +10,10 @@ public class Carro extends Observable{
 	private final static int WAITING_TIME=MOVING_TIME/4;
 	private final static int HARVEST_TIME=3000;
 	
-//	public final static int STOPPED=0;
-//	public final static int MOVING=1;
-//	public final static int HARVESTING=2;
-//	public final static int STORING=3;
+	public final static int STOPPED=0;
+	public final static int MOVING=1;
+	public final static int HARVESTING=2;
+	public final static int STORING=3;
 
 	private int codigo;
 	private Camino caminoEnSeguimiento;
@@ -22,7 +22,7 @@ public class Carro extends Observable{
 	private int carga;
 	private boolean cargado;
 	private ManejadorCarro manejadorCarro; 
-	public boolean allowRun;
+	private Huerto huerto;
 	
 	/**
 	 * case(state)
@@ -43,9 +43,8 @@ public class Carro extends Observable{
 		posiblesCaminos=new Camino[4];
 		angulo=angInicial;
 		carga=0;
-//		state=STOPPED;
+		huerto=null;
 		manejadorCarro=null;
-		allowRun=false;
 		
 	}
 
@@ -67,21 +66,39 @@ public class Carro extends Observable{
 			}
 		}
 	}
-
-
-	public boolean  evaluarRecoleccion() 
-	{
-		boolean rta= false;
-		try{
-			Huerto destRecoleccion=(Huerto)nodoActual;
-			rta=true;
-		}catch(ClassCastException e){
-			System.out.println("El nodo actual no es un huerto, error en el avance");
+	
+	public boolean recolectar() {
+		
+		if(huerto!=null){
+			huerto.decrementarFrutos();
 		}
+		return false;
+		
+	}
+
+	public boolean evaluarActHuerto(){
+		boolean rta=false;
+		
+		if(nodoActual.getHuerto()!=null){
+			huerto=nodoActual.getHuerto();
+			rta=true;
+		}
+
+			System.out.println("El nodo actual no es un huerto, error en el avance");
+		
 		return rta;
 	}
+
+	public int  evaluarRecoleccion() 
+	{
+		if(huerto!=null){
+			return huerto.getEstado();
+		}
+		return Huerto.ERROR;
+
+	}
 	
-	public void evaluarSiguienteMovimiento() 
+	public boolean evaluarSiguienteMovimiento() 
 	{
 		Nodo n= caminoEnSeguimiento.darPrimerNodo();
 		if(n!=null)
@@ -89,11 +106,12 @@ public class Carro extends Observable{
 			if(!n.isaUtilizar())
 			{
 				n.setaUtilizar(true);
-				allowRun=true;
+				return true;
 			}else{
-				allowRun=false;
+				return false;
 			}
 		}
+		return false;
 	}
 	
 	public void iniciarMovimiento(){
@@ -261,6 +279,7 @@ public class Carro extends Observable{
 	public void setCargado(boolean cargado) {
 		this.cargado = cargado;
 	}
+
 
 
 

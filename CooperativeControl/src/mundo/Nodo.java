@@ -33,6 +33,8 @@ public class Nodo {
 	
 	private boolean aUtilizar;
 	
+	private Huerto huerto;
+	
 
 	//--------------------------------------------------------------------------
 	//Constructor
@@ -52,6 +54,7 @@ public class Nodo {
 		posY=pY;
 		aUtilizar=false;
 		enable=true;
+		huerto=null;
 	}
 	
 	
@@ -156,5 +159,14 @@ public class Nodo {
 			
 		}
 		return rta;
+	}
+
+
+	public void asignarCultivo(Huerto hAsignar) {
+		huerto=hAsignar;
+	}
+	
+	public Huerto getHuerto(){
+		return huerto;
 	}
 }

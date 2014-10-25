@@ -13,19 +13,14 @@ public class Malla  {
 	//--------------------------------------------------------------------------
 
 	public static final int N=10;
+	
+	private final static int CROP_NUMBER=2;
 
 	private final static int CAR1 = 1;
 	private final static int CAR2 = 2;
 	private final static int CAR3 = 3;
 
 	private final static int[] CARCODES={CAR1,CAR2,CAR3};
-
-	private static final int CROP1 = 1;
-	private static final int CROP2= 2;
-	private static final int CROP3 = 3;
-	private static final int CROP4= 4;
-
-	private final static int[] CROPCODES={CROP1, CROP2,CROP3,CROP4};
 	
 	private final static String DEST1="Huerto1";
 	private final static String DEST2="Huerto2";
@@ -67,6 +62,7 @@ public class Malla  {
 	private Grafo rGrafo;
 
 	private Observer panelVisualizacion;
+	
 
 
 
@@ -116,13 +112,20 @@ public class Malla  {
 	 */
 	public void inicializarHuertos(int[][] iniciales) throws TamanosInvalidosInicializacionException
 	{
+		Huerto hAsignar=null;
+		Nodo enCreacion=null;
 
-		if(iniciales[0].length==CROPCODES.length 
-				&& iniciales[1].length==CROPCODES.length )
+		if(iniciales[0].length==CROP_NUMBER*Huerto.NODOS_POR_HUERTO
+				&& iniciales[1].length==CROP_NUMBER*Huerto.NODOS_POR_HUERTO )
 		{
-			for(int i =0; i<CROPCODES.length;i++)
+			for(int i =0; i<CROP_NUMBER*Huerto.NODOS_POR_HUERTO;i++)
 			{
-				huertos.add(new Huerto(CROPCODES[i],iniciales[0][i],iniciales[1][i], HARVEST_TIME , FRUIT_NUMBER ));
+				if(i%Huerto.NODOS_POR_HUERTO==0){
+					hAsignar=new Huerto(i/2,HARVEST_TIME, FRUIT_NUMBER);
+				}
+				enCreacion=new Nodo(iniciales[0][i],iniciales[1][i]);
+				enCreacion.asignarCultivo(hAsignar);
+				huertos.add(enCreacion);
 			}		
 		}else
 		{
@@ -157,10 +160,10 @@ public class Malla  {
 
 	public void inicializarMalla()
 	{
-		Huerto huerto0=(Huerto) huertos.get(0);
-		Huerto huerto1=(Huerto) huertos.get(1);
-		Huerto huerto2=(Huerto) huertos.get(2);
-		Huerto huerto3=(Huerto) huertos.get(3);
+		Nodo huerto0= huertos.get(0);
+		Nodo huerto1= huertos.get(1);
+		Nodo huerto2= huertos.get(2);
+		Nodo huerto3= huertos.get(3);
 
 		for(int i=0;i<N;i++)
 		{
@@ -318,7 +321,7 @@ public class Malla  {
 		{
 			c=carros.get(i);
 			j=c.getCaminoEnSeguimiento().getDestino().getCodigo();
-			rta[i]=DESTINOS[j-1];
+			rta[i]=DESTINOS[j];
 		}
 		return rta;
 	}

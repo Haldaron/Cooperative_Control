@@ -23,20 +23,25 @@ public class ManejadorCarro extends Thread{
 	public void run() 
 	{
 		while(runningThread){
-		movimiento();
+
+			movimiento();
+//			recoleccion();
+			runningThread=false;
+
+
 		}
 	}
+
+
 
 	public void movimiento(){
 		while(carro.getCaminoEnSeguimiento().darPrimerNodo()!=null)
 		{
-			carro.evaluarSiguienteMovimiento();
 
-			if(carro.allowRun){
+			if(carro.evaluarSiguienteMovimiento()){
 				try {
 					sleep(movingTime);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				carro.avanzarEnCamino();
@@ -46,7 +51,6 @@ public class ManejadorCarro extends Thread{
 				try {
 					sleep(waitingTime);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -54,30 +58,40 @@ public class ManejadorCarro extends Thread{
 
 		}
 
-		recolección();
 	}
 
-	private void recolección() {
-		while(!carro.getCargado())
+	private void recoleccion() {
+		int estado;
+		boolean cont=carro.evaluarActHuerto();
+		while(!carro.getCargado() && cont)
 		{
+			estado=carro.evaluarRecoleccion();
 
-			if(carro.evaluarRecoleccion()){
-
+			if(estado==Huerto.DISPONIBLE){
 				try {
 					sleep(harvestTime);
-
 				} 
 				catch (InterruptedException e) 
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-			}else{
-				
+				carro.recolectar();
+			}
+			else if(estado==Huerto.EN_RECOLECCION){
+				try {
+					sleep(waitingTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else if(estado==Huerto.ERROR)
+			{
+				cont=false;
+				runningThread=false;
 			}
 
 		}
+
 	}
 
 }

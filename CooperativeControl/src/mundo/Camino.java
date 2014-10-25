@@ -134,7 +134,7 @@ public class Camino {
 	
 	public Huerto getDestino()
 	{
-		return(Huerto)secuencia.get(secuencia.size()-1);
+		return(Huerto)secuencia.get(secuencia.size()-1).getHuerto();
 		
 	}
 

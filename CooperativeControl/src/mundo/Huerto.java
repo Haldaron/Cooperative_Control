@@ -5,12 +5,18 @@ package mundo;
  * Clase que modela las huertas <br>
  */
 
-public class Huerto extends Nodo{
+public class Huerto{
 
 	//--------------------------------------------------------------------------
 	//Atributos
 	//--------------------------------------------------------------------------
 	
+	
+	public final static int EN_RECOLECCION=2;
+	public final static int DISPONIBLE=1;
+	public final static int VACIO=0;
+	public final static int ERROR=-1;
+	public final static int NODOS_POR_HUERTO=2;
 	
 	/**
 	 * Tiempo que tarda el vehículo en recoger cada fruto del huerto.<br>
@@ -26,6 +32,10 @@ public class Huerto extends Nodo{
 	 * Identificador del huerto.<br>
 	 */
 	private int codigo;
+	
+	
+	private int estado;
+	
 
 	
 	
@@ -45,14 +55,13 @@ public class Huerto extends Nodo{
      * @param pCodigo Identificador del huerto <br>
 	 */
 	
-	public Huerto(int pCodigo,int pX, int pY, int pTiempoRecoleccion, int pNumFrutos)
+	public Huerto(int pCodigo, int pTiempoRecoleccion, int pNumFrutos)
 	{
-		super(pX, pY);
 		
 		tiempoRecoleccion=pTiempoRecoleccion;
 		numFrutos=pNumFrutos;
 		codigo=pCodigo;
-		
+		estado=DISPONIBLE;
 	}
 	
 	
@@ -62,7 +71,8 @@ public class Huerto extends Nodo{
 
 		//Get
 	
-    /**
+
+	/**
      * Retorna el tiempo de recoleccion de los fruto en el huerto<br>
      * <b>post: </b>se retornó el tiempo de recoleccion del los frutos del huerto. 
      * Número mayor a cero<br>
@@ -117,13 +127,8 @@ public class Huerto extends Nodo{
 	public void setNumFrutos(int pNumFrutos)
 	{
 		numFrutos=pNumFrutos;
-		if(numFrutos==0)
-		{
-			this.setEnable(false);
-		}
-		else
-		{
-			this.setEnable(true);
+		if(numFrutos==0){
+			setEstado(VACIO);
 		}
 	}
 	
@@ -137,13 +142,21 @@ public class Huerto extends Nodo{
 	public void decrementarFrutos()
 	{
 		numFrutos--;
-		if(numFrutos==0)
-		{
-			this.setEnable(false);
+		if(numFrutos==0){
+			setEstado(VACIO);
 		}
-		else
-		{
-			this.setEnable(true);
-		}
+
 	}
+
+
+	public int getEstado() {
+		return estado;
+	}
+
+
+	public void setEstado(int b) {
+		estado=b;
+	}
+
+
 }
