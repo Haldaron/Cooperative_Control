@@ -1,6 +1,12 @@
 package interfaz;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,6 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import mundo.Carro;
+import mundo.Huerto;
+import mundo.Nodo;
 	
 	
 
@@ -36,26 +46,9 @@ import javax.swing.border.TitledBorder;
 
 
 	    private SubPanelHuertos pHuertos;
-	    private SubPanelDestinos pDestinos;
+	    private SubPanelCarros pCarros;
 	    
-	    private JLabel		lblCarro1;
-
-	    private JTextField 	txtCarro1X;
-	    private JTextField 	txtCarro1Y;
 	    
-	    private JLabel		lblCarro2;
-	    private JTextField 	txtCarro2X;
-	    private JTextField 	txtCarro2Y;
-	    
-	    private JLabel		lblCarro3;
-	    private JTextField 	txtCarro3X;
-	    private JTextField 	txtCarro3Y;
-	    
-	    private JLabel		lblXC;
-	    private JLabel		lblYC;
-	    private JLabel 		emptyC;
-	    
-	    private JTextField[][] txtCars;
 
 
 	    // -----------------------------------------------------------------
@@ -70,87 +63,26 @@ import javax.swing.border.TitledBorder;
 	    {
 	    	
 	    	//Set Auxiliar Panels And Layouts
-	        setLayout(new GridLayout(1,3));
-	        
-	        JPanel pCarros= new JPanel();
-	        pCarros.setLayout(new GridLayout(4,3));
-	        pCarros.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Carros" ) ) );
-
-
+	        setLayout(new GridLayout(1,2) );
 	        pHuertos= new SubPanelHuertos();
-	        pDestinos= new SubPanelDestinos();
-	    	
-	        //Instanciar Labels y TextFields del panel
-	        lblXC= new JLabel("X");
-	        lblYC= new JLabel("Y");
-	        emptyC= new JLabel("");
 	        
 	        
-	        lblCarro1= new JLabel("C 1");
-	        lblCarro2= new JLabel("C 2");
-	        lblCarro3= new JLabel("C 3");
-
-	       
-	        txtCars= new JTextField[Interfaz.NUM_COORD][Interfaz.NUM_CARS];
+	        add(pHuertos);
 	        
-	        //Set the Default Crops and Cars initial positions 
-	    	txtCarro1X = new JTextField();
-	        txtCarro1Y = new JTextField();
-
-	        txtCarro2X = new JTextField();
-	        txtCarro2Y = new JTextField();
-
-	        txtCarro3X = new JTextField();
-	        txtCarro3Y = new JTextField();
-
-	        
-	        //Añadir JTextFields asociados a los carros al arreglo destinado para contenerlos
-	        txtCars[0][0]=txtCarro1X;
-	        txtCars[1][0]=txtCarro1Y;
-	        txtCars[0][1]=txtCarro2X;
-	        txtCars[1][1]=txtCarro2Y;
-	        txtCars[0][2]=txtCarro3X;
-	        txtCars[1][2]=txtCarro3Y;
-	        
-	        setDefault();
-
-	        pCarros.add(emptyC);
-	        pCarros.add(lblXC);
-	        pCarros.add(lblYC);
-	        
-	        pCarros.add(lblCarro1);
-	        pCarros.add(txtCarro1X);
-	        pCarros.add(txtCarro1Y);
-	        
-	        pCarros.add(lblCarro2);
-	        pCarros.add(txtCarro2X);
-	        pCarros.add(txtCarro2Y);
-	        
-	        pCarros.add(lblCarro3);
-	        pCarros.add(txtCarro3X);
-	        pCarros.add(txtCarro3Y);
+	        pCarros= new SubPanelCarros();
 	        
 	        
 	        add(pCarros);
-	        add(pHuertos);
-	        add(pDestinos);
+	        
+	    	
+	        //Instanciar Labels y TextFields del panel
 	        
 	    }
 
 	    public void setDefault(){
-	    	JTextField actual=null;
-			for(int i=0; i <Interfaz.NUM_COORD;i++)
-			{
-				for(int j =0; j<Interfaz.NUM_CARS;j++)
-				{
-					actual=txtCars[i][j];
-					actual.setText(String.valueOf(Interfaz.CARROS_INICIALES[j][i]));
-					actual.setEditable(true);					
-				}
-			}
 			
 			pHuertos.setDefault();
-			pDestinos.setDefault();
+			pCarros.setDefault();
 			
 	    }
 	    
@@ -159,40 +91,60 @@ import javax.swing.border.TitledBorder;
 		 */
 
 		public void iniciar(String[] huertos) {
-	    	JTextField actual=null;
-	    	
-			for(int i=0; i <Interfaz.NUM_COORD;i++)
-			{
-				for(int j =0; j<Interfaz.NUM_CARS;j++)
-				{
-					actual=txtCars[i][j];
-					actual.setEditable(false);
-					
-				}
-			}
-			pHuertos.iniciar();
-	
-			pDestinos.setDestinos(huertos);
 			
+			pCarros.iniciar(huertos);
+			
+			pHuertos.iniciar();
+				
 		}
 		
 		public int[][] darCarrosIniciales() 
 		{
-			int[][] rta= new int[Interfaz.NUM_COORD][Interfaz.NUM_CARS];
-			for(int i=0; i <Interfaz.NUM_COORD;i++)
-			{
-				for(int j =0; j<Interfaz.NUM_CARS;j++)
-				{
-					rta[i][j]=Integer.parseInt(txtCars[i][j].getText());
-				}
-			}
-			return rta;
+
+			return pCarros.darCarrosIniciales();
 		}
 		
 		public int [][] darHuertosIniciales(){
 		
 			return pHuertos.darHuertosIniciales();
 			
+		}
+
+		
+		public void inicializarObservables(ArrayList<Carro> carros, ArrayList<Nodo> huertos)
+		{
+			
+			
+			pCarros.inicializarObservables(carros);
+			
+			ArrayList<Huerto> huertosV= new ArrayList<Huerto>();
+			
+			Huerto h=null;
+			for(Nodo n : huertos){
+				if(!huertosV.contains(n))
+				{
+					h=n.getHuerto();
+					if(h!=null)
+					{
+					huertosV.add(n.getHuerto());
+					}else{
+						System.out.println("Uno de los nodos en el arreglo de huertos de la Malla\nno posee un objeto de la clase huerto");
+					}
+				}
+			}
+			
+			pHuertos.inicializarObservables(huertosV);
+			
+		}
+
+		public Observer getPanelCarros() {
+			// TODO Auto-generated method stub
+			return pCarros;
+		}
+
+		public Observer getPanelHuertos() {
+			// TODO Auto-generated method stub
+			return pHuertos;
 		}
 
 	}

@@ -67,7 +67,7 @@
 	        setTitle( "VARA" );
 	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	        setResizable( true );
-	        setSize( 420, 350);
+	        setSize( 600, 600);
 
 	        panelBotones = new PanelBotones(this );
 	        panelInformacion= new PanelInformacion();
@@ -156,9 +156,9 @@
 
 			try
 	        {
-	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales,panelVisualizacion);
+	           malla = new Malla(carrosIniciales,angulosIniciales , huertosIniciales,panelVisualizacion,panelInformacion.getPanelCarros(),panelInformacion.getPanelHuertos());
 	           panelVisualizacion.inicializarObservables(malla.getCarros(),malla.getHuertos());
-	           
+	           panelInformacion.inicializarObservables(malla.getCarros(),malla.getHuertos());
 	           malla.addObserver();
 	           panelInformacion.iniciar(malla.darObjetivos());
 	           

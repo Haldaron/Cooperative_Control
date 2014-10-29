@@ -1,11 +1,13 @@
 package mundo;
 
+import java.util.Observable;
+
 
 /**
  * Clase que modela las huertas <br>
  */
 
-public class Huerto{
+public class Huerto extends Observable{
 
 	//--------------------------------------------------------------------------
 	//Atributos
@@ -142,6 +144,8 @@ public class Huerto{
 	public int decrementarFrutos()
 	{
 		numFrutos--;
+		setChanged();
+		notifyObservers(codigo);
 		return numFrutos;
 
 	}

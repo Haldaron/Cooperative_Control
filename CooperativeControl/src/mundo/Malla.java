@@ -13,24 +13,22 @@ public class Malla  {
 	//--------------------------------------------------------------------------
 
 	public static final int N=10;
-	
-	private final static int CROP_NUMBER=2;
+
+	public final static int CROP_NUMBER=2;
 
 	private final static int CAR1 = 1;
 	private final static int CAR2 = 2;
 	private final static int CAR3 = 3;
 
 	private final static int[] CARCODES={CAR1,CAR2,CAR3};
-	
-	private final static String DEST1="Huerto1";
-	private final static String DEST2="Huerto2";
-	private final static String DEST3="Huerto3";
-	private final static String DEST4="Huerto4";
-	private final static String DEST5="Bodega"; 
-	private final static String[] DESTINOS={DEST1,DEST2,DEST3,DEST4,DEST5};
+
+	private final static String DEST1="H1";
+	private final static String DEST2="H2";
+	private final static String DEST3="Bodega"; 
+	private final static String[] DESTINOS={DEST1,DEST2,DEST3};
 
 	private final static int HARVEST_TIME=30;
-	private final static int FRUIT_NUMBER=9;
+	public final static int FRUIT_NUMBER=9;
 
 
 
@@ -54,7 +52,7 @@ public class Malla  {
 	 * Vector con los huertos presentes en el terreno.<br>
 	 */
 	private ArrayList<Nodo> huertos;
-	
+
 	private ArrayList<Nodo> destinos;
 
 	// TO-DO: Vector con las metas que pueden cambiar de manera dinámica
@@ -62,7 +60,10 @@ public class Malla  {
 	private Grafo rGrafo;
 
 	private Observer panelVisualizacion;
-	
+	private Observer panelCarros;
+	private Observer panelHuertos;
+
+
 
 
 
@@ -74,17 +75,20 @@ public class Malla  {
 	/**
 	 * Inicializador de la malla. <br>
 	 * <b>post:</b> Inicializados los atributos de la clase <br>
+	 * @param observer 
 	 * @param pX Posición en X del huerto <br>
 	 * @param pY Posición en Y del huerto <br>
 	 * @param pY Posición en Y del huerto <br>
 	 */
 
-	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos, Observer panObserver) throws TamanosInvalidosInicializacionException
+	public Malla(int[][] inicialesCarros, Double[] angulosCarros, int[][] inicialesHuertos, Observer panObserver, Observer panCarros, Observer panHuertos) throws TamanosInvalidosInicializacionException
 	{
 		carros = new ArrayList<Carro>();
 		huertos = new ArrayList<Nodo>();
 		malla= new Nodo[N][N];
 		panelVisualizacion=panObserver;
+		panelCarros=panCarros;
+		panelHuertos=panHuertos;
 		destinos=huertos;
 		inicializarHuertos(inicialesHuertos);
 		inicializarMalla();
@@ -239,7 +243,7 @@ public class Malla  {
 				cRta.anadirNodoAlInicio(aIngresar);
 
 			}
-			
+
 		}else{
 			System.out.println("No hay Camino al objetivo con cod:"+codObjetivo);
 		}
@@ -286,19 +290,39 @@ public class Malla  {
 	public ArrayList<Carro> getCarros() {
 		return carros;
 	}
-	
+
 
 	/**
 	 * @return the huertos
 	 */
 	public ArrayList<Nodo> getHuertos() {
 		return huertos;
-		
+
 	}
 
 	public void addObserver() {
-		for(Carro c: carros){
+		for(Carro c: carros)
+		{
 			c.addObserver(panelVisualizacion);
+			c.addObserver(panelCarros);
+		}
+
+		ArrayList<Huerto> huertosV=new ArrayList<Huerto>();
+		Huerto h=null;
+
+		for(Nodo n: huertos)
+		{
+			h=n.getHuerto();
+			if(h!=null){
+				if(!huertosV.contains(h))
+				{
+					huertosV.add(h);
+					h.addObserver(panelHuertos);
+				}
+			}else{
+				System.out.println("Uno de los nodos en el arreglo de huertos de la Malla\nno posee un objeto de la clase huerto");
+			}
+
 		}
 	}
 
@@ -316,7 +340,7 @@ public class Malla  {
 		int i,j;
 		String[] rta= new String[carNum];
 		Carro c;
-		
+
 		for(i=0; i< carNum; i++)
 		{
 			c=carros.get(i);

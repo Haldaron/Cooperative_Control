@@ -63,7 +63,7 @@ public class PanelVisualizacion extends JPanel implements Observer {
 
 
 	        setLayout(new GridLayout(1,2));
-	        setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new TitledBorder( "Visualizacion" ) ) );
+	        setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5 , 5), new TitledBorder( "Visualizacion" ) ) );
 	        
 	        //Inicializar paneles internos
 	        panelMapa=new PanelMapa(null,null,pN);
@@ -162,7 +162,9 @@ public class PanelVisualizacion extends JPanel implements Observer {
 		@Override
 		public void update(Observable obs, Object arg) {
 			if(carros.contains(obs)){
-				int codCar= (Integer)arg;
+				int[] received= (int[]) arg;
+				int state= received[0];
+				int codCar= received[1];
 				Carro c=(Carro)obs;
 				txtCars[0][codCar-1].setText(String.valueOf(c.getPosX()));
 				txtCars[1][codCar-1].setText(String.valueOf(c.getPosY()));

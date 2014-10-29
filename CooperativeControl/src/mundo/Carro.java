@@ -57,7 +57,7 @@ public class Carro extends Observable{
 			{
 				firstNode.setaUtilizar(false);
 				nodoActual=caminoEnSeguimiento.eliminarPrimerNodoSecuencia();
-				notifyChange(0.0);
+				notifyChange(MOVING);
 
 			}else
 			{
@@ -70,6 +70,7 @@ public class Carro extends Observable{
 	public void recolectar() {
 			if(huerto.decrementarFrutos()>0){
 			carga++;
+			notifyChange(HARVESTING);
 			huerto.setEstado(Huerto.DISPONIBLE);
 			}else{
 				huerto.setEstado(Huerto.VACIO);
@@ -130,11 +131,17 @@ public class Carro extends Observable{
 		manejadorCarro.start();
 	}
 
-	public void notifyChange(double angulo)
+	public void notifyChange(int state)
 	{
-		this.angulo=angulo;
+		int[] envio= new int[2];
+		envio[0]=state;
+		envio[1]=codigo;
 		setChanged();
-		notifyObservers(codigo);
+		notifyObservers(envio);
+		if(state==MOVING){
+			this.angulo=0.0;
+		}
+
 
 	}	
 

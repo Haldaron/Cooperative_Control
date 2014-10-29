@@ -76,8 +76,6 @@ public class ManejadorCarro extends Thread{
 					e.printStackTrace();
 				}
 				
-
-
 			}
 			else if(estado==Huerto.EN_RECOLECCION){
 				try {
