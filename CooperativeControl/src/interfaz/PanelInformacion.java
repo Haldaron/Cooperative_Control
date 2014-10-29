@@ -128,7 +128,7 @@ import mundo.Nodo;
 					{
 					huertosV.add(n.getHuerto());
 					}else{
-						System.out.println("Uno de los nodos en el arreglo de huertos de la Malla\nno posee un objeto de la clase huerto");
+						System.out.println("Uno de los nodos en el arreglo de huertos de la Malla\no posee un objeto de la clase huerto");
 					}
 				}
 			}

@@ -6,15 +6,18 @@ public class ManejadorCarro extends Thread{
 	private int movingTime;
 	private int harvestTime;
 	private int waitingTime;
+	private int unloadTime;
 	private boolean runningThread;
 
 
-	public ManejadorCarro(Carro c, int mT , int hT, int wT)
+	public ManejadorCarro(Carro c, int mT , int hT, int wT,int uT)
 	{
 		carro=c;
 		movingTime=mT;
 		harvestTime=hT;
 		waitingTime=wT;
+
+		unloadTime=uT;
 		runningThread=true;
 
 	}
@@ -25,11 +28,31 @@ public class ManejadorCarro extends Thread{
 		while(runningThread){
 
 			movimiento();
-			recoleccion();
-			runningThread=false;
+			if(!carro.getCargado())
+			{
+				recoleccion();
+			}
+			else
+			{
+				descargar();
+			}
+			//runningThread=false;
 
 
 		}
+	}
+
+
+
+	private void descargar() 
+	{
+		try{
+			sleep(unloadTime);
+		}catch (InterruptedException e){
+			e.printStackTrace();
+		}
+		
+		carro.descargar();
 	}
 
 

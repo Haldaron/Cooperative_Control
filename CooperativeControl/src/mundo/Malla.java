@@ -26,9 +26,12 @@ public class Malla  {
 	private final static String DEST2="H2";
 	private final static String DEST3="Bodega"; 
 	private final static String[] DESTINOS={DEST1,DEST2,DEST3};
+	
+	public final static Nodo NODO_BODEGA=new Nodo(0,0);
+	private static final int CODIGO_BODEGA = 2;
 
 	private final static int HARVEST_TIME=30;
-	public final static int FRUIT_NUMBER=9;
+	public final static int FRUIT_NUMBER=30;
 
 
 
@@ -90,7 +93,15 @@ public class Malla  {
 		panelCarros=panCarros;
 		panelHuertos=panHuertos;
 		destinos=huertos;
+		
+		Nodo nodoBodega = NODO_BODEGA;
+		
 		inicializarHuertos(inicialesHuertos);
+		
+		destinos.add(nodoBodega);
+		Huerto bodega = new Huerto(CODIGO_BODEGA, HARVEST_TIME,0);
+		nodoBodega.asignarCultivo(bodega);
+		
 		inicializarMalla();
 		crearGrafo(malla);
 		inicializarCarros(inicialesCarros, angulosCarros);
@@ -154,7 +165,7 @@ public class Malla  {
 			for(int i =0; i<CARCODES.length;i++)
 			{
 				aInitialNode=malla[inicialesC[1][i]][inicialesC[0][i]];
-				carros.add( new Carro(CARCODES[i], aInitialNode, angulos[i]));
+				carros.add( new Carro(this,CARCODES[i], aInitialNode, angulos[i]));
 			}		
 		}else
 		{
@@ -199,6 +210,11 @@ public class Malla  {
 		}
 	}
 
+	
+	public void recalcularRutas() {
+		asignarRutas();
+		optimizarCaminos();		
+	}
 
 	//Métodos de cálculo y optimización de caminos.	
 

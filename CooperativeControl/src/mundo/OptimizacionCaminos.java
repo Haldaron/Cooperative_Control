@@ -56,32 +56,38 @@ public class OptimizacionCaminos {
 		}
 		
 		//Creando vector
-		for(int i=0;i<conjuntoCaminos.get(0).length;i++)
-		{
-			disponibles.add(i);
-		}
-		
-		asignadosFinal=new ArrayList<Integer>(disponibles);
-		
-		//Hallando asignaci�n de caminos �ptima
-		asignarCaminos(disponibles,asignados);
-		
-		asignados=asignadosFinal;
-		//carros que se han asignado a bodega
-		int carrosABodega=0;
-		//Asignando el camino escogido a cada veh�culo
-		for(int i=0;i<asignados.size();i++)
+		if(conjuntoCaminos.size()!=0)
 		{
 			
-			if(conjuntoCaminosOptimizados.get(i)==null)
+		
+			for(int i=0;i<conjuntoCaminos.get(0).length;i++)
 			{
-				conjuntoCaminosOptimizados.add(i+carrosABodega,conjuntoCaminos.get(i)[asignados.get(i)]);
+				disponibles.add(i);
 			}
-			else
+			
+			asignadosFinal=new ArrayList<Integer>(disponibles);
+			
+			//Hallando asignaci�n de caminos �ptima
+			asignarCaminos(disponibles,asignados);
+			
+			asignados=asignadosFinal;
+			//carros que se han asignado a bodega
+			int carrosABodega=0;
+			//Asignando el camino escogido a cada veh�culo
+			for(int i=0;i<conjuntoCaminosOptimizados.size();i++)
 			{
-				carrosABodega++;
+				
+				if(conjuntoCaminosOptimizados.get(i)==null)
+				{
+					conjuntoCaminosOptimizados.remove(i);
+					conjuntoCaminosOptimizados.add(i,conjuntoCaminos.get(i-carrosABodega)[asignados.get(i-carrosABodega)]);
+				}
+				else
+				{
+					carrosABodega++;
+				}
 			}
-		}		
+		}
 				
 	}
 	
@@ -113,7 +119,8 @@ public class OptimizacionCaminos {
 		{
 			if(carros.get(i).getCargado())
 			{
-				conjuntoCaminosOptimizados.add(i,conjuntoCaminos.get(i)[5]);
+				conjuntoCaminosOptimizados.remove(i);
+				conjuntoCaminosOptimizados.add(i,conjuntoCaminos.get(i-eliminados)[4]);
 				conjuntoCaminos.remove(i-eliminados);
 				eliminados++;
 			}
@@ -129,7 +136,7 @@ public class OptimizacionCaminos {
 		ArrayList<Integer> disponiblesLocal;
 		
 		
-		if(asignados.size()==carros.size())
+		if(asignados.size()==conjuntoCaminos.size())
 		{
 			double costo=0;
 			for(int i=0;i<asignados.size();i++)

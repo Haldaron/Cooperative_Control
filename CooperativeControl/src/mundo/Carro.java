@@ -5,10 +5,11 @@ import java.util.Observable;
 
 public class Carro extends Observable{
 
-	private final static int CAPACIDAD=9;
-	private final static int MOVING_TIME=1000;
-	private final static int WAITING_TIME=MOVING_TIME/4;
-	private final static int HARVEST_TIME=3000;
+	private final static int CAPACIDAD=7;
+	private final static int MOVING_TIME=500;
+	private final static int WAITING_TIME=MOVING_TIME/2;
+	private final static int HARVEST_TIME=1000;
+	private final static int UNLOAD_TIME=1000;
 
 	public final static int STOPPED=0;
 	public final static int MOVING=1;
@@ -24,6 +25,8 @@ public class Carro extends Observable{
 	private ManejadorCarro manejadorCarro; 
 	private Huerto huerto;
 
+	private Malla malla;
+
 	/**
 	 * case(state)
 	 * 0:stopped
@@ -36,15 +39,16 @@ public class Carro extends Observable{
 
 
 
-	public Carro(int cod, Nodo initialNode, double angInicial){
+	public Carro(Malla pMalla,int cod, Nodo initialNode, double angInicial){
 		codigo=cod;
 		nodoActual=initialNode;
 		caminoEnSeguimiento =null;
-		posiblesCaminos=new Camino[4];
+		posiblesCaminos=new Camino[5];
 		angulo=angInicial;
 		carga=0;
 		huerto=null;
 		manejadorCarro=null;
+		malla=pMalla;
 
 	}
 
@@ -68,18 +72,43 @@ public class Carro extends Observable{
 	}
 
 	public void recolectar() {
-			if(huerto.decrementarFrutos()>0){
-			carga++;
-			notifyChange(HARVESTING);
-			huerto.setEstado(Huerto.DISPONIBLE);
-			}else{
-				huerto.setEstado(Huerto.VACIO);
-			}
-			System.out.print("Carro");
-			System.out.println(codigo);
-			System.out.println(carga);
+		if(huerto.decrementarFrutos()>0){
+		carga++;
+		notifyChange(HARVESTING);
+		huerto.setEstado(Huerto.DISPONIBLE);
+		}else{
+			huerto.setEstado(Huerto.VACIO);
+		}
+		
+		System.out.print("Carro");
+		System.out.println(codigo);
+		System.out.println(carga);
+		
+		if(carga==Carro.CAPACIDAD)
+		{
+			cargado=true;
+			System.out.println("Carro copado");
+			malla.recalcularRutas();
+		}
 
 	}
+	
+	public void descargar() {
+		
+		carga=0;
+		notifyChange(HARVESTING);
+		huerto.setEstado(Huerto.DISPONIBLE);
+		setCargado(false);
+		
+		System.out.print("Carro");
+		System.out.println(codigo);
+		System.out.println("Se ha descargado");
+	
+		malla.recalcularRutas();
+		
+
+	}
+	
 
 	public int  evaluarRecoleccion() 
 	{
@@ -127,7 +156,7 @@ public class Carro extends Observable{
 	}
 
 	public void iniciarMovimiento(){
-		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME,WAITING_TIME);
+		manejadorCarro=new ManejadorCarro(this, MOVING_TIME, HARVEST_TIME,WAITING_TIME,UNLOAD_TIME);
 		manejadorCarro.start();
 	}
 

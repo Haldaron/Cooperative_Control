@@ -44,7 +44,7 @@ public class FindPath {
 		for(int i=nodo ; i!=source; i=edgeTo[i]){
 			camino.push(i);
 		}
-		//camino.push(source);
+		camino.push(source);
 		
 		return camino;
 	}
