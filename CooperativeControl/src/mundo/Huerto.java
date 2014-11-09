@@ -143,10 +143,13 @@ public class Huerto extends Observable{
 	
 	public int decrementarFrutos()
 	{
+		int rta=numFrutos;
+		if(numFrutos>0){
 		numFrutos--;
 		setChanged();
 		notifyObservers(codigo);
-		return numFrutos;
+		}
+		return rta;
 
 	}
 

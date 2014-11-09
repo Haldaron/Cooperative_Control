@@ -5,7 +5,7 @@ import java.util.Observable;
 
 public class Carro extends Observable{
 
-	private final static int CAPACIDAD=7;
+	private final static int CAPACIDAD=8;
 	private final static int MOVING_TIME=500;
 	private final static int WAITING_TIME=MOVING_TIME/2;
 	private final static int HARVEST_TIME=1000;

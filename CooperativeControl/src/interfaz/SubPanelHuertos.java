@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -206,13 +207,28 @@ public class SubPanelHuertos extends JPanel implements Observer
 	}
 
 
-	public int [][] darHuertosIniciales(){
+	public int [][] darHuertosIniciales() throws Exception {
+		int ij0=0;
+		int ij1=0;
 		int[][] rta= new int[Interfaz.NUM_COORD][Interfaz.NUM_HUERTOS];
 		for(int i=0; i <Interfaz.NUM_COORD;i++)
 		{
 			for(int j =0; j<Interfaz.NUM_HUERTOS;j++)
 			{
-				rta[i][j]=Integer.parseInt(txtCrops[i][j].getText());
+				if(j%2==0){
+					ij0=Integer.parseInt(txtCrops[i][j].getText());
+					rta[i][j]=ij0;		
+				}else{
+					ij1=Integer.parseInt(txtCrops[i][j].getText());
+					if(ij1<ij0-1 || ij1>ij0+1)
+					{
+
+						throw new Exception();
+						
+					}else{
+						rta[i][j]=ij1;	
+					}
+				}
 			}
 		}
 		return rta;

@@ -104,7 +104,7 @@ import mundo.Nodo;
 			return pCarros.darCarrosIniciales();
 		}
 		
-		public int [][] darHuertosIniciales(){
+		public int [][] darHuertosIniciales() throws Exception{
 		
 			return pHuertos.darHuertosIniciales();
 			

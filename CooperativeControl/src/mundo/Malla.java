@@ -201,6 +201,11 @@ public class Malla  {
 			}
 		}
 	}
+	
+	public void recalcularRutas() {
+		asignarRutas();
+		optimizarCaminos();		
+	}
 
 	public void asignarRutas(){
 		for (Carro car :carros) 
@@ -209,15 +214,26 @@ public class Malla  {
 
 		}
 	}
-
 	
-	public void recalcularRutas() {
-		asignarRutas();
-		optimizarCaminos();		
+	/**
+	 * Asigna los posibles caminos a cada uno de los nodos objetivo(objs) al carro c paasado por parámetro
+	 * @param c Carro c al cual se le calcularán los posibles caminos.
+	 * @param objs ArrayList de objetivos con los nodos posibles a los cuales se puede dirigir el carro c
+	 */
+	public void asignarPosiblesCaminos(Carro c){
+		FindPath fpActual= bfsCarroi(c);
+		int i; 
+		Nodo n;
+		Camino currentPath;
+		for(i=0; i<destinos.size(); i++)
+		{
+			n=destinos.get(i);
+			currentPath=construirCamino(fpActual, n.getPosY()*N+n.getPosX());
+			currentPath.finish(c);
+			c.setCaminoI(i,currentPath);
+		}
 	}
-
-	//Métodos de cálculo y optimización de caminos.	
-
+	
 	/**
 	 * Calcula y retorna el bfs en una clase FindPath para el carro pasado por parámetro
 	 * @param c
@@ -266,24 +282,6 @@ public class Malla  {
 		return cRta;
 	}
 
-	/**
-	 * Asigna los posibles caminos a cada uno de los nodos objetivo(objs) al carro c paasado por parámetro
-	 * @param c Carro c al cual se le calcularán los posibles caminos.
-	 * @param objs ArrayList de objetivos con los nodos posibles a los cuales se puede dirigir el carro c
-	 */
-	public void asignarPosiblesCaminos(Carro c){
-		FindPath fpActual= bfsCarroi(c);
-		int i; 
-		Nodo n;
-		Camino currentPath;
-		for(i=0; i<destinos.size(); i++)
-		{
-			n=destinos.get(i);
-			currentPath=construirCamino(fpActual, n.getPosY()*N+n.getPosX());
-			currentPath.finish(c);
-			c.setCaminoI(i,currentPath);
-		}
-	}
 
 	public void optimizarCaminos()
 
